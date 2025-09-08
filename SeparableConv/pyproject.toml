@@ -1,0 +1,10 @@
+[build-system]
+requires = ["setuptools","wheel","pybind11","ninja"]
+build-backend = "setuptools.build_meta"
+[project]
+name="SeparableConv"
+version="0.1.0"
+[tool.setuptools]
+packages=["SeparableConv"]
+py-modules =["SeparableConvLayer","SeparableConvModule"]
+package-dir = {"" = "."}

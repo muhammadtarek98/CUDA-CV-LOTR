@@ -1,0 +1,10 @@
+[build-system]
+requires = ["setuptools","wheel","pybind11","ninja"]
+build-backend = "setuptools.build_meta"
+[project]
+name="SeparableConvFlow"
+version="0.1.0"
+[tool.setuptools]
+packages = ["SeparableConvFlow"]
+py-modules = ["SeparableConvFlowLayer", "SeparableConvFlowModule"]
+package-dir = {"" = "."}

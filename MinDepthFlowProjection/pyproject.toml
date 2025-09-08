@@ -1,0 +1,10 @@
+[build-system]
+requires = ["setuptools","wheel","pybind11","ninja"]
+build-backend = "setuptools.build_meta"
+[project]
+name="MinDepthFlowProjection"
+version="0.1.0"
+[tool.setuptools]
+packages=["MinDepthFlowProjection"]
+py-modules =["minDepthFlowProjectionModule","minDepthFlowProjectionLayer"]
+package-dir = {"" = "."}

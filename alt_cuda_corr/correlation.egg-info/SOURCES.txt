@@ -1,0 +1,9 @@
+setup.py
+../kernels/correlation_kernel.cu
+../src/correlation.cpp
+correlation.egg-info/PKG-INFO
+correlation.egg-info/SOURCES.txt
+correlation.egg-info/dependency_links.txt
+correlation.egg-info/requires.txt
+correlation.egg-info/top_level.txt
+correlation.egg-info/zip-safe

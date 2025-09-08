@@ -1,0 +1,11 @@
+[build-system]
+# pip will install these *into* its isolated build environment *before*
+requires = ["setuptools","wheel","pybind11","ninja"]
+build-backend = "setuptools.build_meta"
+[project]
+name="FlowProjection"
+version="0.1.0"
+[tool.setuptools]
+packages=["FlowProjection"]
+py-modules =["FlowProjectionModule","FlowProjectionLayer"]
+package-dir = {"" = "."}
