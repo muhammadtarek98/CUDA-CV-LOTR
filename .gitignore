@@ -4,13 +4,7 @@
 /build/
 ./*/*.so
 ./*/*.o
-/.idea/.gitignore
-/.idea/.name
 /alt_cuda_corr/build/temp.linux-x86_64-cpython-310/.ninja_deps
 /alt_cuda_corr/build/temp.linux-x86_64-cpython-310/.ninja_log
 /alt_cuda_corr/build/kernels/correlation_kernel.o
-/.idea/custom_pytorch_operation_and_layers.iml
-/.idea/editor.xml
-/.idea/misc.xml
-/.idea/modules.xml
-/.idea/vcs.xml
+/.idea/
