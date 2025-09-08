@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include <bits/stdc++.h>
 #include "mindepthflowprojection_cuda_kernel.cuh"
 #include <ATen/ATen.h>
 #include <ATen/NativeFunctions.h>
@@ -22,7 +22,7 @@ using at::Half;
 
 //forward path of our layer
 template <typename scalar_t>
-__global__ void minDepthFlowProjection_gpu_forward_kernelfunc(
+__global__ void minDepthFlowProjection_gpu_forward_kernel_func(
 		const int nElement,
 		const int w,
 		const int h,
@@ -252,7 +252,7 @@ int minDepthFlowProjection_gpu_forward_kernel(
         printf("BLOCKDIMX revised to %d, BLOCKDIMY revised to %d \n", BLOCKDIMX,BLOCKDIMY);
 	//extract the data of CudaTensor and use kernel to calculate.
 	AT_DISPATCH_FLOATING_TYPES(input1.scalar_type(), "minDepthFlowProjection_gpu_forward", ([&] {
-	minDepthFlowProjection_gpu_forward_kernelfunc<<<grid,block,0, stream >>>(
+	minDepthFlowProjection_gpu_forward_kernel_func<<<grid,block,0, stream >>>(
 			nElement, //to let the nummous
 			w,h,channel,input1_b_stride,input1_c_stride,input1_h_stride,input1_w_stride,
             input2_b_stride,input2_c_stride,input2_h_stride,input2_w_stride,

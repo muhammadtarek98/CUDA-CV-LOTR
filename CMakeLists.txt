@@ -39,7 +39,8 @@ set(VID2VID_CORRELATION_SRC src/vid2vid_correlation_cuda.cc kernels/vid2vid_corr
 set(RESAMPLE_2D_SRC src/resample2d_cuda.cc kernels/resample2d_kernel.cu)
 set(DCNV2_LATEST src/dcn_v2_cpu.cpp src/dcn_v2_im2col_cpu.cpp src/vision.cpp src/dcn_v2_psroi_pooling_cpu.cpp
     kernels/dcn_v2_psroi_pooling_cuda.cu kernels/dcn_v2_im2col_cuda.cu kernels/dcn_v2_cuda.cu
-        kernels/correlation_kernel.cu src/correlation.cpp)
+        kernels/correlation_kernel.cu src/correlation.cpp
+        include/dcn_v2_im2col_cuda.h)
 set(OPS_SMM kernels/smm_cuda.cu)
 include_directories(
         ${Python3_INCLUDE_DIRS}
@@ -85,14 +86,15 @@ target_include_directories(Deformable_ConvNets PRIVATE ${CMAKE_CURRENT_SOURCE_DI
 target_link_libraries(Deformable_ConvNets PRIVATE "${TORCH_LIBRARIES}" CUDA::cudart pybind11::module Python3::Python)
 set_target_properties(Deformable_ConvNets PROPERTIES SUFFIX ".so" PREFIX "" LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/Deformable_ConvNets)
 
-add_library(DCNv2_latest SHARED ${DCNV2_LATEST})
+add_library(DCNv2_latest SHARED ${DCNV2_LATEST}
+        include/dcn_v2_im2col_cuda.h)
 target_include_directories(DCNv2_latest PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_link_libraries(DCNv2_latest PRIVATE "${TORCH_LIBRARIES}" CUDA::cudart pybind11::module Python3::Python)
 set_target_properties(DCNv2_latest PROPERTIES SUFFIX ".so" PREFIX "" LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/DCNv2_latest)
 
 
 
-add_library(ops_smm SHARED ${DCNV2_LATEST})
+add_library(ops_smm SHARED ${OPS_SMM})
 target_include_directories(ops_smm PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_link_libraries(ops_smm PRIVATE "${TORCH_LIBRARIES}" CUDA::cudart pybind11::module Python3::Python)
 set_target_properties(ops_smm PROPERTIES SUFFIX ".so" PREFIX "" LIBRARY_OUTPUT_DIRECTORY
@@ -116,7 +118,7 @@ set_target_properties(SeparableConv PROPERTIES
 add_library(MinDepthFlowProjection SHARED ${MINDEPTHFLOWPROJECTION_SRC})
 target_include_directories(MinDepthFlowProjection PRIVATE  ${CMAKE_CURRENT_SOURCE_DIR}/include
         ${CMAKE_CURRENT_SOURCE_DIR}/kernels ${CMAKE_CURRENT_SOURCE_DIR}/src)
-target_link_libraries(MinDepthFlowProjection PRIVATE alt_cuda_corr  "${TORCH_LIBRARIES}" CUDA::cudart pybind11::module
+target_link_libraries(MinDepthFlowProjection PRIVATE correlation  "${TORCH_LIBRARIES}" CUDA::cudart pybind11::module
         Python3::Python)
 set_target_properties(MinDepthFlowProjection PROPERTIES
         SUFFIX ".so" PREFIX "" LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/MinDepthFlowProjection)
@@ -124,7 +126,7 @@ set_target_properties(MinDepthFlowProjection PROPERTIES
 add_library(lietorch_extra SHARED ${LIE_TORCH_EXTRA_SRC})
 target_include_directories(lietorch_extra PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_link_libraries(lietorch_extra PRIVATE "${TORCH_LIBRARIES}" CUDA::cudart ${Eigen3_LIBRARIES} pybind11::module
-        Python3::Python )
+        Python3::Python correlation)
 set_target_properties(lietorch_extra PROPERTIES
         SUFFIX ".so" PREFIX "" LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lietorch)
 
@@ -133,7 +135,7 @@ target_include_directories(lietorch PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include
         ${CMAKE_CURRENT_SOURCE_DIR}/kernels/*.cu
         ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cc)
 target_link_libraries(lietorch PRIVATE "${TORCH_LIBRARIES}" pybind11::module CUDA::cudart Python3::Python
-        ${Eigen3_LIBRARIES} lietorch_extra)
+        ${Eigen3_LIBRARIES} lietorch_extra correlation)
 set_target_properties(lietorch PROPERTIES
         SUFFIX ".so" PREFIX "" LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lietorch)
 

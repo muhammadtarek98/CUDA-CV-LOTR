@@ -15,12 +15,12 @@ setup(include_package_data=True,zip_safe=True,
     ext_modules=[CppExtension(
         name='alt_corr',
         sources=['../src/correlation.cpp'],
-        include_dirs=[os.path.join(ROOT,"../include/")],package_dir={'': './'},
+        include_dirs=[os.path.join(ROOT,"../include/")],
         extra_compile_args={'cxx': cxx_args,}
     ),
         CUDAExtension(name='alt_cuda_corr',
             sources=['../kernels/correlation_kernel.cu'],
-            include_dirs=[os.path.join(ROOT,"../include/")],package_dir={'': './'},
+            include_dirs=[os.path.join(ROOT,"../include/")],
         extra_compile_args={'cxx': cxx_args,'nvcc': nvcc_args}),
     ],
     cmdclass={'build_ext': BuildExtension})

@@ -1,8 +1,7 @@
 #include "mindepthflowprojection_cuda_kernel.cuh"
 #include <torch/extension.h>
 #include <ATen/ATen.h>
-#include <stdio.h>
-#include <iostream>
+#include <bits/stdc++.h>
 #include <ATen/cuda/CUDAContext.h>
 
 

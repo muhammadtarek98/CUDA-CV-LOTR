@@ -30,7 +30,3 @@ std::vector<torch::Tensor> corr_backward(torch::Tensor &fmap1,torch::Tensor &fma
 }
 
 
-PYBIND11_MODULE(TORCH_EXTENSION_NAME, m) {
-  m.def("forward", &corr_forward, "CORR forward");
-  m.def("backward", &corr_backward, "CORR backward");
-}

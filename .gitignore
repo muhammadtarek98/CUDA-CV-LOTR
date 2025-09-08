@@ -8,3 +8,13 @@
 /alt_cuda_corr/build/temp.linux-x86_64-cpython-310/.ninja_log
 /alt_cuda_corr/build/kernels/correlation_kernel.o
 /.idea/
+/DCNv2_latest/DCNv2_latest.so
+/DepthFlowProjection/DepthFlowProjection.so
+/FilterInterpolation/FilterInterpolation.so
+/FlowProjection/FlowProjection.so
+/Interpolation/Interpolation.so
+/InterpolationCH/InterpolationCH.so
+/lietorch/lietorch.so
+/lietorch/lietorch_extra.so
+/MinDepthFlowProjection/MinDepthFlowProjection.so
+/ops_smm/ops_smm.so

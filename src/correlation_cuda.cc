@@ -1,9 +1,8 @@
 #include "vid2vid_correlation_cuda_kernel.cuh"
 #include <torch/torch.h>
 #include <ATen/ATen.h>
-#include <stdio.h>
 #include <ATen/cuda/CUDAContext.h> //works for 1.0.0
-
+#include <bits/stdc++.h>
 int correlation_forward_cuda(at::Tensor& input1, at::Tensor& input2, at::Tensor& rInput1, at::Tensor& rInput2, at::Tensor& output,
                              int pad_size,
                              int kernel_size,
@@ -161,10 +160,5 @@ int correlation_backward_cuda(at::Tensor& input1, at::Tensor& input2, at::Tensor
   }
 
   return 1;
-}
-
-PYBIND11_MODULE(TORCH_EXTENSION_NAME, m) {
-  m.def("forward", &correlation_forward_cuda, "Correlation forward (CUDA)");
-  m.def("backward", &correlation_backward_cuda, "Correlation backward (CUDA)");
 }
 

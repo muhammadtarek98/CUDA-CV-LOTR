@@ -11,16 +11,16 @@ nvcc_args=['-gencode', 'arch=compute_90,code=sm_90',
            "-O3",'-Wno-deprecated-gpu-targets','--expt-relaxed-constexpr'
            ]
 setup(
-    name='mindepthflowprojection_cuda',
-    install_requires=["torch"],packages=find_packages(),include_package_data=True,
+    name='MinDepthFlowProjection',
+    install_requires=["torch"],packages=find_packages(where="."),include_package_data=True,
     zip_safe=True,
     ext_modules=[
-        CppExtension(name="vid_2_vid_correlation",
+        CppExtension(name="MinDepthFlowProjection.minDepthflowprojection",
                      sources=['../src/mindepthflowprojection_cuda.cc'],
-                     package_dir={'': './'},
+                     package_dir={'MinDepthFlowProjection': './'},
                      include_dirs=[os.path.join(ROOT,"../include/")],
                      extra_compile_args={'cxx': cxx_args,}),
-        CUDAExtension(name='MinDepthFlowProjection.mindepthflowprojection_cuda',package_dir={'': './'}, sources=[
+        CUDAExtension(name='mindepthflowprojection_cuda',package_dir={'': './'}, sources=[
             '../kernels/mindepthflowprojection_cuda_kernel.cu'
         ],include_dirs=[os.path.join(ROOT,"../include/")],
         extra_compile_args={'cxx': cxx_args, 'nvcc': nvcc_args})

@@ -4,7 +4,7 @@
 #include <cuda_runtime.h>
 #include <torch/torch.h>
 #include <vector>
-
+#include <pybind11/pybind11.h>
 
 ///////////// SMM_QmK
 
