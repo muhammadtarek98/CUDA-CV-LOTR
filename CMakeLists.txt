@@ -52,17 +52,17 @@ include_directories(
         ${CMAKE_CURRENT_SOURCE_DIR}/src
 )
 set(OPS Deformable_ConvNets correlation lietorch_extra lietorch MinDepthFlowProjection
-        SeparableConvFlow SeparableConv  vid2vid_correlation ChannelNorm Resample2D
+        SeparableConvFlow SeparableConv  vid_2_vid_correlation ChannelNorm Resample2D
         Interpolation InterpolationCH DepthFlowProjection FLowProjection FilterInterpolation
         DCNv2_latest ops_smm)
 set_source_files_properties(src/deform_attn_ext.cpp PROPERTIESLANGUAGE CUDA)
 set(CUDA_NVCC_FLAGS "${CUDA_NVCC_FLAGS} -gencode arch=compute_${TORCH_CUDA_ARCH_LIST},code=sm_${TORCH_CUDA_ARCH_LIST}")
 
 
-add_library(vid2vid_correlation SHARED ${VID2VID_CORRELATION_SRC})
-target_include_directories(vid2vid_correlation PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
-target_link_libraries(vid2vid_correlation PRIVATE "${TORCH_LIBRARIES}" CUDA::cudart pybind11::module Python3::Python)
-set_target_properties(vid2vid_correlation PROPERTIES SUFFIX ".so" PREFIX "" LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/vid2_vid_correlation)
+add_library(vid_2_vid_correlation SHARED ${VID2VID_CORRELATION_SRC})
+target_include_directories(vid_2_vid_correlation PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
+target_link_libraries(vid_2_vid_correlation PRIVATE "${TORCH_LIBRARIES}" CUDA::cudart pybind11::module Python3::Python)
+set_target_properties(vid_2_vid_correlation PROPERTIES SUFFIX ".so" PREFIX "" LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/vid_2_vid_correlation)
 
 add_library(correlation SHARED ${CORRELATION_SRC})
 target_include_directories(correlation PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
@@ -186,27 +186,24 @@ set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -I${CMAKE_CURRENT_SOURCE_DIR}/kernels"
 
 foreach (layer ${OPS})
     add_custom_target(install_${layer}
-    COMMAND python3 setup.py develop
+    COMMAND pip3 install  . --no-build-isolation
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/${layer}
     COMMENT "Installing ${layer} Python module..."
     )
 endforeach ()
 add_custom_target(install_all DEPENDS
-        install_vid2vid_correlation
+        install_vid_2_vid_correlation
         install_ChannelNorm
         install_correlation
         install_Resample2D
         install_Deformable_ConvNets
         install_DCNv2_latest
-        install_lietorch_extra
         install_lietorch
         install_MinDepthFlowProjection
         install_Interpolation
         install_InterpolationCH
         install_FLowProjection
         install_ops_smm
-
-
         install_DepthFlowProjection
         install_SeparableConv install_SeparableConvFlow COMMENT "Installing all Python modules"
 )

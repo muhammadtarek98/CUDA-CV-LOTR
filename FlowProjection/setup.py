@@ -11,14 +11,14 @@ nvcc_args=['-gencode', 'arch=compute_90,code=sm_90',
            "-O3",'-Wno-deprecated-gpu-targets','--expt-relaxed-constexpr'
            ]
 setup(include_package_data=True,zip_safe=True,
-    name='flowprojection_cuda',
+    name='FlowProjection', package_dir={'FlowProjection': './'},
       install_requires=["torch"],packages=find_packages(),
-    ext_modules=[
-        CUDAExtension(name='FlowProjection.flowprojection_cuda',include_dirs=[os.path.join(ROOT,"../include/")],
-            package_dir={'': './'}, sources=[
-            '../src/flowprojection_cuda.cc',
-            '../kernels/flowprojection_cuda_kernel.cu'
-        ],extra_compile_args={'cxx': cxx_args, 'nvcc':nvcc_args })
+    ext_modules=[CUDAExtension(
+        name='FlowProjection.flowprojection_cuda',
+        include_dirs=[os.path.join(ROOT,"../include/")],
+        sources=['../src/flowprojection_cuda.cc',
+            '../kernels/flowprojection_cuda_kernel.cu'],
+        extra_compile_args={'cxx': cxx_args, 'nvcc':nvcc_args })
     ],
     cmdclass={
         'build_ext': BuildExtension

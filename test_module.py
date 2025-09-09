@@ -1,13 +1,13 @@
 import time
 import torch
 import numpy as np
-from Libs.DepthFlowProjection.DepthFlowProjection import DepthFlowProjectionModule
-from Libs.FilterInterpolation.FilterInterpolation import FilterInterpolationModule
-from Libs.FlowProjection.FlowProjection import FlowProjectionModule
-from Libs.Interpolation.Interpolation import InterpolationModule
-from Libs.InterpolationCh.InterpolationCH import InterpolationChModule
-from Libs.SeparableConv.SeparableConv import SeparableConvModule
-from Libs.SeparableConvFlow.SeparableConvFlow import SeparableConvFlowModule
+from DepthFlowProjection.DepthFlowProjection import DepthFlowProjectionModule
+from FilterInterpolation.FilterInterpolation import FilterInterpolationModule
+from FlowProjection.FlowProjection import FlowProjectionModule
+from Interpolation.Interpolation import InterpolationModule
+from InterpolationCh.InterpolationCH import InterpolationChModule
+from SeparableConv.SeparableConv import SeparableConvModule
+from SeparableConvFlow.SeparableConvFlow import SeparableConvFlowModule
 
 
 def test_SeparableConvFlowModule(input1, input2, input3, filtersize):

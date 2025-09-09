@@ -12,25 +12,16 @@ nvcc_args=['-gencode', 'arch=compute_90,code=sm_90',
            '-gencode', 'arch=compute_89,code=sm_89',
            "-O3",'-Wno-deprecated-gpu-targets','--expt-relaxed-constexpr'
            ]
-def get_extensions():
-    return ([CppExtension(name="filterinterpolation",
-                          package_dir={'': './'}, sources=[
-            '../src/filterinterpolation_cuda.cc'],
-                          extra_compile_args={'cxx': cxx_args,}          ),
-                CUDAExtension(name="FilterInterpolation.filterinterpolation_cuda",
-        package_dir={'': './'}, sources=[
-        '../src/filterinterpolation_cuda.cc',
-        '../kernels/filterinterpolation_cuda_kernel.cu'],
-        include_dirs=[os.path.join(ROOT,"../include/")],
-        extra_compile_args={'cxx': cxx_args, 'nvcc': nvcc_args})],
-        {'build_ext': BuildExtension})
 
-
-ext_modules, cmdclass = get_extensions()
-setup(name='filterinterpolation_cuda',
-      verison='0.1.0',
+setup(name='FilterInterpolation',
+      package_dir={'FilterInterpolation': './'},
       packages=find_packages(),
       install_requires=["torch"],
       zip_safe=True,include_package_data=True,
-      ext_modules=ext_modules,
-      cmdclass=cmdclass)
+      ext_modules=[CUDAExtension(name="FilterInterpolation.filterinterpolation_cuda",
+                                sources=[
+                                    '../src/filterinterpolation_cuda.cc',
+                                    '../kernels/filterinterpolation_cuda_kernel.cu'],
+                                include_dirs=[os.path.join(ROOT,"../include/")],
+                                extra_compile_args={'cxx': cxx_args, 'nvcc': nvcc_args})],
+      cmdclass={'build_ext': BuildExtension})

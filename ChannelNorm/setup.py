@@ -16,17 +16,11 @@ nvcc_args = ['-gencode', 'arch=compute_37,code=sm_37','-gencode', 'arch=compute_
 
 setup(include_package_data=True,zip_safe=True,install_requires=["torch"],
       packages=find_packages(where="."),
-    name='ChannelNorm',
-    ext_modules=[CppExtension(name="ChannelNorm.channelnorm",sources= [
-        '../src/channelnorm_cuda.cc'],include_dirs=[os.path.join(ROOT,"../include/")],
-                              package_dir={'ChannelNorm': './' },
-                              extra_compile_args={'cxx': cxx_args}),
-        CUDAExtension(name='channelnorm.channelnorm_cuda',sources= [
-            '../kernels/channelnorm_kernel.cu'
-        ],include_dirs=[os.path.join(ROOT,"../include/")],
-        package_dir={'ChannelNorm': './' },
- extra_compile_args={'cxx': cxx_args, 'nvcc': nvcc_args})
-    ],
-    cmdclass={
-        'build_ext': BuildExtension
-    })
+      name='ChannelNorm',package_dir={'ChannelNorm': './' },
+      ext_modules=[CUDAExtension(
+    name='ChannelNorm.channelnorm_cuda',
+    sources= ['../kernels/channelnorm_kernel.cu',
+            '../src/channelnorm_cuda.cc'],
+    include_dirs=[os.path.join(ROOT,"../include/")],
+ extra_compile_args={'cxx': cxx_args, 'nvcc': nvcc_args})],
+    cmdclass={ 'build_ext': BuildExtension})

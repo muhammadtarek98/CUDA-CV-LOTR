@@ -10,13 +10,16 @@ nvcc_args=['-gencode', 'arch=compute_90,code=sm_90',
            '-gencode', 'arch=compute_89,code=sm_89',
            "-O3",'-Wno-deprecated-gpu-targets','--expt-relaxed-constexpr'
            ]
-setup(include_package_data=True,zip_safe=True,install_requires=['torch'],
+setup(include_package_data=True,
+      zip_safe=True,install_requires=['torch'],
       packages=find_packages(where='.'),
+    package_dir={'Resample2D': './' },
     name='Resample2D',
     ext_modules=[
-        CppExtension(name="Resample2D",sources=['../src/resample2d_cuda.cc',]),
-        CUDAExtension(name='Resample2D_cuda', sources=['../src/resample2d_kernel.cu'],
-        include_dirs=[os.path.join(ROOT,"../include/")] ,package_dir={'Resample2D': './' },
+        CUDAExtension(name='Resample2D_cuda', sources=[
+            '../src/resample2d_cuda.cc',
+            '../src/resample2d_kernel.cu'],
+        include_dirs=[os.path.join(ROOT,"../include/")] ,
                       extra_compile_args={'cxx': cxx_args, 'nvcc': nvcc_args})
     ],
     cmdclass={

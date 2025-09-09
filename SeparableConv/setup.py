@@ -11,15 +11,12 @@ nvcc_args=['-gencode', 'arch=compute_90,code=sm_90',
            ]
 cxx_args=['-std=c++17', '-w','-D_GLIBCXX_USE_CXX11_ABI=1']
 setup(include_package_data=True,zip_safe=True,
-    name='separableconv_cuda',install_requires=["torch"],packages=find_packages(),
+    name='SeparableConv',install_requires=["torch"],packages=find_packages(),
+      package_dir={'SeparableConv': './'},
     ext_modules=[
-        CppExtension(name='SeparableConv.separableconv',package_dir={'': './'},
-                     sources=['../src/separableconv_cuda.cc'],
-                     include_dirs=[os.path.join(ROOT,"../include/")],
-                     extra_compile_args={'cxx': cxx_args,}),
         CUDAExtension(name='SeparableConv.separableconv_cuda',
-            sources=['../kernels/separableconv_cuda_kernel.cu'],
-            package_dir={'': './'},include_dirs=[os.path.join(ROOT,"../include/")],
+            sources=['../kernels/separableconv_cuda_kernel.cu','../src/separableconv_cuda.cc'],
+            include_dirs=[os.path.join(ROOT,"../include/")],
             extra_compile_args={'cxx': cxx_args,'nvcc': nvcc_args})
     ],
     cmdclass={'build_ext': BuildExtension})

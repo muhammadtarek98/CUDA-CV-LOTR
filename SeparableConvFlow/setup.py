@@ -14,17 +14,12 @@ cxx_args=['-std=c++17', '-w','-D_GLIBCXX_USE_CXX11_ABI=1']
 
 setup(include_package_data=True,zip_safe=True,
     name='SeparableConvFlow',install_requires=["torch"],packages=find_packages(where="."),
-    ext_modules=[CppExtension(
-        name='SeparableConvFlow.separableconvflow',
-        include_dirs=[os.path.join(ROOT,"../include/")],
-        package_dir={'SeparableConvFlow': './' },
-        packages=["SeparableConvFlowLayer", "SeparableConvFlowModule"],
-        sources=['../src/separableconvflow_cuda.cc',],
-    ),CUDAExtension(name='SeparableConvFlow.separableconvflow_cuda',
+      package_dir={'SeparableConvFlow': './' },
+      ext_modules=[CUDAExtension(name='SeparableConvFlow.separableconvflow_cuda',
                       include_dirs=[os.path.join(ROOT,"../include/")],
-                      package_dir={'SeparableConvFlow': './' },
                       packages=["SeparableConvFlowLayer", "SeparableConvFlowModule"],
-            sources=['../kernels/separableconvflow_cuda_kernel.cu'],
+            sources=['../kernels/separableconvflow_cuda_kernel.cu',
+                     '../src/separableconvflow_cuda.cc'],
             extra_compile_args={'cxx': cxx_args,
             'nvcc': nvcc_args})],
     cmdclass={'build_ext': BuildExtension})

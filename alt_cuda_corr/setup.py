@@ -11,15 +11,11 @@ nvcc_args=['-gencode', 'arch=compute_90,code=sm_90',
            ]
 cxx_args=['-std=c++17', '-w','-D_GLIBCXX_USE_CXX11_ABI=1']
 setup(include_package_data=True,zip_safe=True,
-    name='correlation',install_requires=["torch"],
-    ext_modules=[CppExtension(
-        name='alt_corr',
-        sources=['../src/correlation.cpp'],
-        include_dirs=[os.path.join(ROOT,"../include/")],
-        extra_compile_args={'cxx': cxx_args,}
-    ),
-        CUDAExtension(name='alt_cuda_corr',
-            sources=['../kernels/correlation_kernel.cu'],
+    name='Alt_Correlation',install_requires=["torch"],
+    ext_modules=[
+        CUDAExtension(name='Alt_Correlation.alt_cuda_corr',
+            sources=['../kernels/correlation_kernel.cu',
+                     '../src/correlation.cpp'],
             include_dirs=[os.path.join(ROOT,"../include/")],
         extra_compile_args={'cxx': cxx_args,'nvcc': nvcc_args}),
     ],

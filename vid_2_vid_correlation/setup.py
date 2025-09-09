@@ -11,14 +11,11 @@ nvcc_args=['-gencode', 'arch=compute_90,code=sm_90',
            "-O3",'-Wno-deprecated-gpu-targets','--expt-relaxed-constexpr'
            ]
 setup(include_package_data=True, zip_safe=True,
-      name='vid_2_vid_correlation', packages=find_packages("../vid2_vid_correlation/"),
-      package_dir={"vid_2_vid_correlation":f"{ROOT}/vid_2_vid_correlation"},
-      ext_modules=[CppExtension(name="vid_2_vid_correlation",
-        sources=['../src/correlation_cuda.cc',],package_dir={'': './'},
-                              include_dirs=[os.path.join(ROOT,"../include/")],
-                              extra_compile_args={'cxx': cxx_args,}),
+      name='vid_2_vid_correlation', packages=find_packages("./"),
+      package_dir={'vid_2_vid_correlation': './'},
+      ext_modules=[
         CUDAExtension(name='vid_2_vid_correlation_cuda',
-                      sources=['../kernels/correlation_cuda_kernel.cu'],
+                      sources=['../kernels/correlation_cuda_kernel.cu','../src/correlation_cuda.cc'],
         include_dirs=[os.path.join(ROOT,"../include/")],
         extra_compile_args={'cxx': cxx_args,'nvcc': nvcc_args})],
       cmdclass={'build_ext': BuildExtension})

@@ -11,13 +11,13 @@ nvcc_args=['-gencode', 'arch=compute_90,code=sm_90',
            "-O3",'-Wno-deprecated-gpu-targets','--expt-relaxed-constexpr'
            ]
 setup(include_package_data=True,zip_safe=True,
-    name='interpolation_cuda',
+    name='Interpolation',package_dir={'Interpolation': './'},
       install_requires=["torch"],packages=find_packages(),
     ext_modules=[CUDAExtension(name='Interpolation.interpolation_cuda',
-            package_dir={'': './'},sources=['../src/interpolation_cuda.cc',
-            '../kernels/interpolation_cuda_kernel.cu'],include_dirs=[os.path.join(ROOT,"../include/")],
-    extra_compile_args={'cxx': cxx_args,
-        'nvcc':nvcc_args})
+    sources=['../src/interpolation_cuda.cc',
+            '../kernels/interpolation_cuda_kernel.cu'],
+    include_dirs=[os.path.join(ROOT,"../include/")],
+    extra_compile_args={'cxx': cxx_args,'nvcc':nvcc_args})
     ],
     cmdclass={
         'build_ext': BuildExtension
