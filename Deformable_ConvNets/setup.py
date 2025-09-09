@@ -1,7 +1,7 @@
 import os
 import torch
-from setuptools import setup
-from torch.utils.cpp_extension import BuildExtension, CUDAExtension,C
+from setuptools import setup, find_packages
+from torch.utils.cpp_extension import BuildExtension, CUDAExtension,CppExtension
 
 os.environ["TORCH_CUDA_ARCH_LIST"] = "7.5;8.9;9.0"
 cxx_args = ['-std=c++17', '-w', '-D_GLIBCXX_USE_CXX11_ABI=1']
@@ -12,11 +12,12 @@ nvcc_args = ['-gencode', 'arch=compute_70,code=sm_70',
     "-O3",'-Wno-deprecated-gpu-targets', '--expt-relaxed-constexpr']
 ROOT = os.path.dirname(os.path.abspath(__file__))
 setup(include_package_data=True, zip_safe=True,
+      package_dir={'Deformable_ConvNets': f'./'},
       name='Deformable_ConvNets', install_requires=["torch"],
-      packages=["Deformable_ConvNets"],
-      package_dir={'Deformable_ConvNets': f'{ROOT}/Deformable_ConvNets'},
-      ext_modules=[CUDAExtension(name='Deformable_ConvNets.deform_attn',
-                                 include_dirs=[os.path.join(ROOT, "../include/")],
+      packages=find_packages(where="."),
+      ext_modules=[CUDAExtension(name='Deformable_ConvNets.deform_attn_cuda',
+                         package_dir={'Deformable_ConvNets': f'./Deformable_ConvNets'},
+                         include_dirs=[os.path.join(ROOT, "../include/")],
                                  sources=['../src/deform_attn_cuda_pt109.cpp',
                                           '../src/deform_attn_cuda_pt110.cpp',
                                           '../src/deform_attn_ext.cpp',
