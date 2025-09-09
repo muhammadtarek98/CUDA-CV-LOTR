@@ -15,7 +15,8 @@ setup(include_package_data=True, zip_safe=True,
       package_dir={'vid_2_vid_correlation': './'},
       ext_modules=[
         CUDAExtension(name='vid_2_vid_correlation_cuda',
-                      sources=['../kernels/correlation_cuda_kernel.cu','../src/correlation_cuda.cc'],
+                      sources=['../kernels/correlation_cuda_kernel.cu',
+                               '../src/correlation_cuda.cc'],
         include_dirs=[os.path.join(ROOT,"../include/")],
         extra_compile_args={'cxx': cxx_args,'nvcc': nvcc_args})],
       cmdclass={'build_ext': BuildExtension})

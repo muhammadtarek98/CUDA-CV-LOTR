@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup,find_packages
 import torch
 from torch.utils.cpp_extension import BuildExtension, CUDAExtension
 import os
@@ -13,34 +13,25 @@ nvcc_args=['-gencode', 'arch=compute_90,code=sm_90',
 
 setup(
     name='lietorch',package_dir={'lietorch': './'},
-    version='0.2',
-    description='Lie Groups for PyTorch',
-    author='teedrz',install_requires=["torch"],
-    packages=['lietorch'],
+    install_requires=["torch"],
+    packages=find_packages(),
     ext_modules=[
         CUDAExtension(name='lietorch_backends',
             include_dirs=[os.path.join(ROOT, 'eigen'),
             os.path.join(ROOT,"../include")],
-            sources=[
-                '../src/lietorch.cpp',
+            sources=['../src/lietorch.cpp',
                 '../kernels/lietorch_gpu.cu',
                 '../src/lietorch_cpu.cpp'],
-            extra_compile_args={
-                'cxx': cxx_args,
-                'nvcc': nvcc_args
-            }),
+            extra_compile_args={'cxx': cxx_args,'nvcc': nvcc_args}),
 
         CUDAExtension(name='lietorch_extras',
-            sources=[
-                '../kernels/altcorr_kernel.cu',
+            sources=['../kernels/altcorr_kernel.cu',
                 '../kernels/corr_index_kernel.cu',
                 '../kernels/se3_builder.cu',
                 '../kernels/se3_inplace_builder.cu',
                 '../kernels/se3_solver.cu',
-                '../src/extras.cpp',
-            ],
-            extra_compile_args={'cxx': cxx_args,
-                'nvcc': nvcc_args}),
+                '../src/extras.cpp',],
+            extra_compile_args={'cxx': cxx_args,'nvcc': nvcc_args}),
     ],
     cmdclass={ 'build_ext': BuildExtension }
 )

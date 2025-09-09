@@ -16,14 +16,10 @@ setup(
     include_package_data=True,
     zip_safe=True,
     package_dir={'MinDepthFlowProjection': './'},
-    ext_modules=[
-        CUDAExtension(name='MinDepthFlowProjection.mindepthflowprojection_cuda',
-        sources=[
-            '../kernels/mindepthflowprojection_cuda_kernel.cu',
+    ext_modules=[CUDAExtension(
+        name='MinDepthFlowProjection.mindepthflowprojection_cuda',
+        sources=['../kernels/mindepthflowprojection_cuda_kernel.cu',
             '../src/mindepthflowprojection_cuda.cc'],
         include_dirs=[os.path.join(ROOT,"../include/")],
-        extra_compile_args={'cxx': cxx_args, 'nvcc': nvcc_args})
-    ],
-    cmdclass={
-        'build_ext': BuildExtension
-    })
+        extra_compile_args={'cxx': cxx_args, 'nvcc': nvcc_args})],
+    cmdclass={'build_ext': BuildExtension})

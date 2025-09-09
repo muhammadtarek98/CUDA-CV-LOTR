@@ -21,9 +21,8 @@ setup(
         name="smm_cuda",
         sources=["../kernels/smm_cuda.cu"],
         include_dirs=[os.path.join(ROOT,"../include/")] ,
-        extra_compile_args={'cxx':cxx_args, 'nvcc': nvcc_args}
-    )],
+        extra_compile_args={'cxx':cxx_args, 'nvcc': nvcc_args})],
     cmdclass={"build_ext": BuildExtension},
     install_requires=["torch"],
-include_package_data=True,zip_safe=True
+    include_package_data=True,zip_safe=True
 )

@@ -15,13 +15,10 @@ setup(include_package_data=True,
       packages=find_packages(where='.'),
     package_dir={'Resample2D': './' },
     name='Resample2D',
-    ext_modules=[
-        CUDAExtension(name='Resample2D_cuda', sources=[
-            '../src/resample2d_cuda.cc',
-            '../src/resample2d_kernel.cu'],
+    ext_modules=[CUDAExtension(
+        name='Resample2D_cuda',
+        sources=['../src/resample2d_cuda.cc',
+        '../kernels/resample2d_kernel.cu'],
         include_dirs=[os.path.join(ROOT,"../include/")] ,
-                      extra_compile_args={'cxx': cxx_args, 'nvcc': nvcc_args})
-    ],
-    cmdclass={
-        'build_ext': BuildExtension
-    })
+        extra_compile_args={'cxx': cxx_args, 'nvcc': nvcc_args})],
+    cmdclass={'build_ext': BuildExtension})
