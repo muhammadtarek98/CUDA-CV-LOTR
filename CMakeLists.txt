@@ -62,35 +62,35 @@ set(CUDA_NVCC_FLAGS "${CUDA_NVCC_FLAGS} -gencode arch=compute_${TORCH_CUDA_ARCH_
 add_library(vid_2_vid_correlation SHARED ${VID2VID_CORRELATION_SRC})
 target_include_directories(vid_2_vid_correlation PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_link_libraries(vid_2_vid_correlation PRIVATE "${TORCH_LIBRARIES}" CUDA::cudart pybind11::module Python3::Python)
-set_target_properties(vid_2_vid_correlation PROPERTIES SUFFIX ".so" PREFIX "" LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/vid_2_vid_correlation)
+set_target_properties(vid_2_vid_correlation PROPERTIES SUFFIX ".so" PREFIX "" LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/vid_2_vid_correlation)
 
 add_library(correlation SHARED ${CORRELATION_SRC})
 target_include_directories(correlation PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_link_libraries(correlation PRIVATE "${TORCH_LIBRARIES}" CUDA::cudart pybind11::module Python3::Python)
-set_target_properties(correlation PROPERTIES SUFFIX ".so" PREFIX "" LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/correlation)
+set_target_properties(correlation PROPERTIES SUFFIX ".so" PREFIX "" LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/correlation)
 
 
 add_library(ChannelNorm SHARED ${CHANNELNORM_SRC})
 target_include_directories(ChannelNorm PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_link_libraries(ChannelNorm PRIVATE "${TORCH_LIBRARIES}" CUDA::cudart pybind11::module Python3::Python)
-set_target_properties(ChannelNorm PROPERTIES SUFFIX ".so" PREFIX "" LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/ChannelNorm)
+set_target_properties(ChannelNorm PROPERTIES SUFFIX ".so" PREFIX "" LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/ChannelNorm)
 
 
 add_library(Resample2D SHARED ${RESAMPLE_2D_SRC})
 target_include_directories(Resample2D PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_link_libraries(Resample2D PRIVATE "${TORCH_LIBRARIES}" CUDA::cudart pybind11::module Python3::Python)
-set_target_properties(Resample2D PROPERTIES SUFFIX ".so"  PREFIX "" LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/Resample2D)
+set_target_properties(Resample2D PROPERTIES SUFFIX ".so"  PREFIX "" LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/Resample2D)
 
 add_library(Deformable_ConvNets SHARED ${DEFORMABLE_CONVNET_V2})
 target_include_directories(Deformable_ConvNets PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_link_libraries(Deformable_ConvNets PRIVATE "${TORCH_LIBRARIES}" CUDA::cudart pybind11::module Python3::Python)
-set_target_properties(Deformable_ConvNets PROPERTIES SUFFIX ".so" PREFIX "" LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/Deformable_ConvNets)
+set_target_properties(Deformable_ConvNets PROPERTIES SUFFIX ".so" PREFIX "" LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/Deformable_ConvNets)
 
 add_library(DCNv2_latest SHARED ${DCNV2_LATEST}
         include/dcn_v2_im2col_cuda.h)
 target_include_directories(DCNv2_latest PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_link_libraries(DCNv2_latest PRIVATE "${TORCH_LIBRARIES}" CUDA::cudart pybind11::module Python3::Python)
-set_target_properties(DCNv2_latest PROPERTIES SUFFIX ".so" PREFIX "" LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/DCNv2_latest)
+set_target_properties(DCNv2_latest PROPERTIES SUFFIX ".so" PREFIX "" LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/DCNv2_latest)
 
 
 
@@ -105,14 +105,14 @@ target_include_directories(SeparableConvFlow PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}
         ${CMAKE_CURRENT_SOURCE_DIR}/kernels ${CMAKE_CURRENT_SOURCE_DIR}/src)
 target_link_libraries(SeparableConvFlow PRIVATE "${TORCH_LIBRARIES}" CUDA::cudart pybind11::module Python3::Python)
 set_target_properties(SeparableConvFlow PROPERTIES
-        SUFFIX ".so" PREFIX "" LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/SeparableConvFlow)
+        SUFFIX ".so" PREFIX "" LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/SeparableConvFlow)
 
 
 add_library(SeparableConv SHARED ${SEPARABLECONV_SRC})
 target_include_directories(SeparableConv PRIVATE  ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_link_libraries(SeparableConv PRIVATE "${TORCH_LIBRARIES}" CUDA::cudart pybind11::module Python3::Python)
 set_target_properties(SeparableConv PROPERTIES
-        SUFFIX ".so" PREFIX "" LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/SeparableConv)
+        SUFFIX ".so" PREFIX "" LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/SeparableConv)
 
 
 add_library(MinDepthFlowProjection SHARED ${MINDEPTHFLOWPROJECTION_SRC})
@@ -121,14 +121,14 @@ target_include_directories(MinDepthFlowProjection PRIVATE  ${CMAKE_CURRENT_SOURC
 target_link_libraries(MinDepthFlowProjection PRIVATE correlation  "${TORCH_LIBRARIES}" CUDA::cudart pybind11::module
         Python3::Python)
 set_target_properties(MinDepthFlowProjection PROPERTIES
-        SUFFIX ".so" PREFIX "" LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/MinDepthFlowProjection)
+        SUFFIX ".so" PREFIX "" LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/MinDepthFlowProjection)
 
 add_library(lietorch_extra SHARED ${LIE_TORCH_EXTRA_SRC})
 target_include_directories(lietorch_extra PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_link_libraries(lietorch_extra PRIVATE "${TORCH_LIBRARIES}" CUDA::cudart ${Eigen3_LIBRARIES} pybind11::module
         Python3::Python correlation)
 set_target_properties(lietorch_extra PROPERTIES
-        SUFFIX ".so" PREFIX "" LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lietorch)
+        SUFFIX ".so" PREFIX "" LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/lietorch)
 
 add_library(lietorch SHARED ${LIETORCH_SRC})
 target_include_directories(lietorch PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include
@@ -137,7 +137,7 @@ target_include_directories(lietorch PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include
 target_link_libraries(lietorch PRIVATE "${TORCH_LIBRARIES}" pybind11::module CUDA::cudart Python3::Python
         ${Eigen3_LIBRARIES} lietorch_extra correlation)
 set_target_properties(lietorch PROPERTIES
-        SUFFIX ".so" PREFIX "" LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lietorch)
+        SUFFIX ".so" PREFIX "" LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/lietorch)
 
 
 add_library(InterpolationCH SHARED ${INTERPOLATIONCH_SRC})
@@ -146,13 +146,13 @@ target_include_directories(InterpolationCH PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/i
         ${CMAKE_CURRENT_SOURCE_DIR}/src)
 target_link_libraries(InterpolationCH PRIVATE "${TORCH_LIBRARIES}" CUDA::cudart pybind11::module Python3::Python)
 set_target_properties(InterpolationCH PROPERTIES
-        SUFFIX ".so" PREFIX "" LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/InterpolationCH)
+        SUFFIX ".so" PREFIX "" LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/InterpolationCH)
 
 add_library(Interpolation SHARED ${INTERPOLATION_SRC})
 target_include_directories(Interpolation PRIVATE {CMAKE_CURRENT_SOURCE_DIR}/include )
 target_link_libraries(Interpolation PRIVATE "${TORCH_LIBRARIES}" CUDA::cudart pybind11::module Python3::Python)
 set_target_properties(Interpolation PROPERTIES
-        SUFFIX ".so" PREFIX "" LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/Interpolation)
+        SUFFIX ".so" PREFIX "" LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/Interpolation)
 
 
 add_library(FlowProjection SHARED  ${FLOWPROJECTION_SRC})
@@ -161,7 +161,7 @@ target_include_directories(FlowProjection PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/in
         ${CMAKE_CURRENT_SOURCE_DIR}/src)
 target_link_libraries(FlowProjection PRIVATE "${TORCH_LIBRARIES}" CUDA::cudart pybind11::module Python3::Python)
 set_target_properties(FlowProjection PROPERTIES
-        SUFFIX ".so" PREFIX "" LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/FlowProjection)
+        SUFFIX ".so" PREFIX "" LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/FlowProjection)
 
 add_library(FilterInterpolation SHARED ${FILTERINTERPOLATION_SRC})
 target_include_directories(FilterInterpolation PRIVATE  ${CMAKE_CURRENT_SOURCE_DIR}/include
@@ -169,7 +169,7 @@ target_include_directories(FilterInterpolation PRIVATE  ${CMAKE_CURRENT_SOURCE_D
         ${CMAKE_CURRENT_SOURCE_DIR}/src)
 target_link_libraries(FilterInterpolation PRIVATE "${TORCH_LIBRARIES}" CUDA::cudart pybind11::module Python3::Python)
 set_target_properties(FilterInterpolation PROPERTIES
-        SUFFIX ".so" PREFIX "" LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/FilterInterpolation)
+        SUFFIX ".so" PREFIX "" LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/FilterInterpolation)
 
 
 add_library(DepthFlowProjection SHARED ${DEPTHFLOWPROJECTION_SRC})
@@ -178,7 +178,7 @@ target_include_directories(DepthFlowProjection PUBLIC ${CMAKE_CURRENT_SOURCE_DIR
         ${CMAKE_CURRENT_SOURCE_DIR}/src)
 target_link_libraries(DepthFlowProjection PRIVATE "${TORCH_LIBRARIES}" CUDA::cudart pybind11::module Python3::Python)
 set_target_properties(DepthFlowProjection PROPERTIES
-        SUFFIX ".so" PREFIX "" LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/DepthFlowProjection)
+        SUFFIX ".so" PREFIX "" LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/DepthFlowProjection)
 
 set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -I${CMAKE_CURRENT_SOURCE_DIR}/kernels")
 

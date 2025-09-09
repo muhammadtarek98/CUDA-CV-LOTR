@@ -5,12 +5,12 @@ from DepthFlowProjection.DepthFlowProjection import DepthFlowProjectionModule
 from FilterInterpolation.FilterInterpolation import FilterInterpolationModule
 from FlowProjection.FlowProjection import FlowProjectionModule
 from Interpolation.Interpolation import InterpolationModule
-from InterpolationCh.InterpolationCH import InterpolationChModule
+from InterpolationCH.InterpolationCH import InterpolationChModule
 from SeparableConv.SeparableConv import SeparableConvModule
 from SeparableConvFlow.SeparableConvFlow import SeparableConvFlowModule
 
 
-def test_SeparableConvFlowModule(input1, input2, input3, filtersize):
+def SeparableConvFlowModule(input1, input2, input3, filtersize):
     FilterInterpolate = SeparableConvFlowModule(filtersize)
 
     t1 = time.time()
@@ -66,7 +66,7 @@ def test_SeparableConvFlowModule(input1, input2, input3, filtersize):
     return t2 - t1, t3 - t2
 
 
-def test_SeparableConvModule(input1, input2, input3, filtersize):
+def SeparableConvModule(input1, input2, input3, filtersize):
     FilterInterpolate = SeparableConvModule(filtersize)
 
     t1 = time.time()
@@ -133,7 +133,7 @@ def test_SeparableConvModule(input1, input2, input3, filtersize):
     return t2 - t1, t3 - t2
 
 
-def test_FilterInterpolation(input1, input2, input3):
+def FilterInterpolation(input1, input2, input3):
     FilterInterpolate = FilterInterpolationModule()
 
     t1 = time.time()
@@ -200,7 +200,7 @@ def test_FilterInterpolation(input1, input2, input3):
     return t2 - t1, t3 - t2
 
 
-def test_InterpolationModule(input1, input2):
+def InterpolationModule(input1, input2):
     Interpolate = InterpolationModule()
 
     t1 = time.time()
@@ -244,7 +244,7 @@ def test_InterpolationModule(input1, input2):
     return t2 - t1, t3 - t2
 
 
-def test_InterpolationChModule(input1, input2):
+def InterpolationChModule(input1, input2):
     Interpolate = InterpolationChModule(input1.size(1))
     t1 = time.time()
     output = Interpolate(input1, input2)
@@ -284,7 +284,7 @@ def test_InterpolationChModule(input1, input2):
     return t2 - t1, t3 - t2
 
 
-def test_FlowProjectionModule(input1):
+def FlowProjectionModule(input1):
     Project = FlowProjectionModule()
     t1 = time.time()
     output = Project(input1)
@@ -362,7 +362,7 @@ def test_DepthFlowProjectionModule(input1, input2):
 
 
 def test_WeightedFlowProjectionModule(input1, input2, input3):
-    Project = WeightedFlowProjectionModule(threshold=20.0 / 255.0, requires_grad=True)
+    Project = FlowProjectionModule(threshold=20.0 / 255.0, requires_grad=True)
     t1 = time.time()
     output = Project(input1, input2, input3)
     t2 = time.time()
@@ -373,7 +373,7 @@ def test_WeightedFlowProjectionModule(input1, input2, input3):
     input1_cuda = torch.autograd.Variable(input1.data.type(torch.cuda.FloatTensor), requires_grad=True)
     input2_cuda = torch.autograd.Variable(input2.data.type(torch.cuda.FloatTensor), requires_grad=True)
     input3_cuda = torch.autograd.Variable(input3.data.type(torch.cuda.FloatTensor), requires_grad=True)
-    Project = WeightedFlowProjectionModule(threshold=20.0 / 255.0, requires_grad=True)  # regnenerate
+    Project =FlowProjectionModule(threshold=20.0 / 255.0, requires_grad=True)  # regnenerate
     t1 = time.time()
     output_cuda = Project(input1_cuda, input2_cuda, input3_cuda)
     t2 = time.time()
@@ -402,7 +402,7 @@ def test_WeightedFlowProjectionModule(input1, input2, input3):
 
 def test_AdaptiveWeightInterpolationModule(input1, input2, input3, input4):
     training = True
-    Interpolate = AdaptiveWeightInterpolationModule(training=training)
+    Interpolate = InterpolationModule(training=training)
     t1 = time.time()
     output = Interpolate(input1, input2, input3, input4)
     t2 = time.time()
@@ -503,5 +503,5 @@ for i in range(10):
     ftime, btime = test_DepthFlowProjectionModule(input1, input2)
     ftimes.append(ftime)
     btimes.append(btime)
-print("GPU Forward and backward time is : " + str(numpy.array(ftimes).mean()) + "s\t" + str(
-    numpy.array(btimes).mean()) + "s\t\n\n\n\n")
+print("GPU Forward and backward time is : " + str(np.array(ftimes).mean()) + "s\t" + str(
+    np.array(btimes).mean()) + "s\t\n\n\n\n")
