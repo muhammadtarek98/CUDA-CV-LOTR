@@ -10,10 +10,10 @@ nvcc_args=['-gencode', 'arch=compute_90,code=sm_90',
            '-gencode', 'arch=compute_89,code=sm_89',
            "-O3",'-Wno-deprecated-gpu-targets','--expt-relaxed-constexpr'
            ]
-setup(include_package_data=True,zip_safe=True,
-    name='vid_2_vid_correlation',packages=find_packages("./"),
+setup(include_package_data=True, zip_safe=True,
+      name='vid_2_vid_correlation', packages=find_packages("../vid2_vid_correlation/"),
       package_dir={"vid_2_vid_correlation":f"{ROOT}/vid_2_vid_correlation"},
-    ext_modules=[CppExtension(name="vid_2_vid_correlation",
+      ext_modules=[CppExtension(name="vid_2_vid_correlation",
         sources=['../src/correlation_cuda.cc',],package_dir={'': './'},
                               include_dirs=[os.path.join(ROOT,"../include/")],
                               extra_compile_args={'cxx': cxx_args,}),
@@ -21,4 +21,4 @@ setup(include_package_data=True,zip_safe=True,
                       sources=['../kernels/correlation_cuda_kernel.cu'],
         include_dirs=[os.path.join(ROOT,"../include/")],
         extra_compile_args={'cxx': cxx_args,'nvcc': nvcc_args})],
-    cmdclass={'build_ext': BuildExtension})
+      cmdclass={'build_ext': BuildExtension})
