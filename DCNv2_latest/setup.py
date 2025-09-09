@@ -12,14 +12,14 @@ nvcc_args=['-gencode', 'arch=compute_90,code=sm_90',
 cxx_args=['-std=c++17', '-w','-D_GLIBCXX_USE_CXX11_ABI=1']
 setup(include_package_data=True,zip_safe=True,
     name="DCNv2",packages=find_packages(where="./"),
-    version="0.1",package_dir={'DCNv2': f'{ROOT}/DCNv2'},
+    version="0.1",package_dir={'DCNv2': f'./'},
     description="deformable convolutional networks",
     ext_modules=[
         CppExtension(name="DCNv2",sources=[
             '../src/dcn_v2_cpu.cpp',
             '../src/dcn_v2_im2col_cpu.cpp',
             '../src/dcn_v2_psroi_pooling_cpu.cpp',
-            '../src/vision.cpp'],package_dir={'': './'},
+            '../src/vision.cpp'],
                      include_dirs=[os.path.join(ROOT,"../include/")],
                      extra_compile_args={'cxx': cxx_args,}),
       CUDAExtension(name='DCNv2_cuda',

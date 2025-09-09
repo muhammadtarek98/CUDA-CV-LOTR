@@ -53,7 +53,7 @@ include_directories(
 )
 set(OPS Deformable_ConvNets correlation lietorch_extra lietorch MinDepthFlowProjection
         SeparableConvFlow SeparableConv  vid_2_vid_correlation ChannelNorm Resample2D
-        Interpolation InterpolationCH DepthFlowProjection FLowProjection FilterInterpolation
+        Interpolation InterpolationCH DepthFlowProjection FlowProjection FilterInterpolation
         DCNv2_latest ops_smm)
 set_source_files_properties(src/deform_attn_ext.cpp PROPERTIESLANGUAGE CUDA)
 set(CUDA_NVCC_FLAGS "${CUDA_NVCC_FLAGS} -gencode arch=compute_${TORCH_CUDA_ARCH_LIST},code=sm_${TORCH_CUDA_ARCH_LIST}")
@@ -202,8 +202,9 @@ add_custom_target(install_all DEPENDS
         install_MinDepthFlowProjection
         install_Interpolation
         install_InterpolationCH
-        install_FLowProjection
+        install_FlowProjection
         install_ops_smm
         install_DepthFlowProjection
+        install_FilterInterpolation
         install_SeparableConv install_SeparableConvFlow COMMENT "Installing all Python modules"
 )
