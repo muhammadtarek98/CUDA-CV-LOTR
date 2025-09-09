@@ -206,5 +206,4 @@ add_custom_target(install_all DEPENDS
         install_ops_smm
         install_DepthFlowProjection
         install_FilterInterpolation
-        install_SeparableConv install_SeparableConvFlow COMMENT "Installing all Python modules"
-)
+        install_SeparableConv install_SeparableConvFlow COMMENT "Installing all Python modules")
