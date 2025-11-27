@@ -11,8 +11,8 @@ nvcc_args=['-gencode', 'arch=compute_90,code=sm_90',
            "-O3",'-Wno-deprecated-gpu-targets','--expt-relaxed-constexpr'
            ]
 setup(include_package_data=True,zip_safe=True,
-    name='correlation',package_dir={'correlation': './'},
-      install_requires=["torch"],packages=find_packages(),
+    name='correlation',
+      install_requires=["torch"],packages=find_packages(exclude="./correlation"),
     ext_modules=[
         CUDAExtension(name='correlation.correlation_cuda',
         sources=['../src/correlation_cuda.cc','../kernels/correlation_cuda_kernel.cu'],

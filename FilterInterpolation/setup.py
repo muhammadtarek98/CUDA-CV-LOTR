@@ -14,8 +14,7 @@ nvcc_args=['-gencode', 'arch=compute_90,code=sm_90',
            ]
 
 setup(name='FilterInterpolation',
-      package_dir={'FilterInterpolation': './'},
-      packages=find_packages(),
+      packages=find_packages(exclude="./FilterInterpolation"),
       install_requires=["torch"],
       zip_safe=True,include_package_data=True,
       ext_modules=[CUDAExtension(name="FilterInterpolation.filterinterpolation_cuda",

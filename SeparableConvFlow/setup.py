@@ -13,8 +13,8 @@ nvcc_args=['-gencode', 'arch=compute_90,code=sm_90',
 cxx_args=['-std=c++17', '-w','-D_GLIBCXX_USE_CXX11_ABI=1']
 
 setup(include_package_data=True,zip_safe=True,
-    name='SeparableConvFlow',install_requires=["torch"],packages=find_packages(where="."),
-      package_dir={'SeparableConvFlow': './' },
+    name='SeparableConvFlow',install_requires=["torch"],
+      packages=find_packages(exclude="./SeparableConvFlow/*"),
       ext_modules=[CUDAExtension(
           name='SeparableConvFlow.separableconvflow_cuda',
           include_dirs=[os.path.join(ROOT,"../include/")],

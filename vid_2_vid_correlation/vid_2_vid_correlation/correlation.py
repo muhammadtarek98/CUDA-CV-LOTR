@@ -18,7 +18,7 @@ class CorrelationFunction(Function):
             rbot1 = input1.new()
             rbot2 = input2.new()
             output = input1.new()
-            correlation_cuda.forward(input1,,
+            correlation_cuda.forward(input1)
         return output
 
     def backward(self, grad_output:torch.Tensor)->tuple:

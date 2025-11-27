@@ -186,7 +186,7 @@ set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -I${CMAKE_CURRENT_SOURCE_DIR}/kernels"
 
 foreach (layer ${OPS})
     add_custom_target(install_${layer}
-    COMMAND pip3 install  . --no-build-isolation
+    COMMAND python3 setup.py build develop
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/${layer}
     COMMENT "Installing ${layer} Python module..."
     )

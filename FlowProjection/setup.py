@@ -11,8 +11,8 @@ nvcc_args=['-gencode', 'arch=compute_90,code=sm_90',
            "-O3",'-Wno-deprecated-gpu-targets','--expt-relaxed-constexpr'
            ]
 setup(include_package_data=True,zip_safe=True,
-    name='FlowProjection', package_dir={'FlowProjection': './'},
-      install_requires=["torch"],packages=find_packages(),
+    name='FlowProjection',
+      install_requires=["torch"],packages=find_packages(exclude="./FlowProjection"),
     ext_modules=[CUDAExtension(
         name='FlowProjection.flowprojection_cuda',
         include_dirs=[os.path.join(ROOT,"../include/")],

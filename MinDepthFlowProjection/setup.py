@@ -12,10 +12,9 @@ nvcc_args=['-gencode', 'arch=compute_90,code=sm_90',
            ]
 setup(
     name='MinDepthFlowProjection',
-    install_requires=["torch"],packages=find_packages(where="."),
+    install_requires=["torch"],packages=find_packages(exclude="./MinDepthFlowProjection/*"),
     include_package_data=True,
     zip_safe=True,
-    package_dir={'MinDepthFlowProjection': './'},
     ext_modules=[CUDAExtension(
         name='MinDepthFlowProjection.mindepthflowprojection_cuda',
         sources=['../kernels/mindepthflowprojection_cuda_kernel.cu',

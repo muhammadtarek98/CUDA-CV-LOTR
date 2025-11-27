@@ -11,8 +11,8 @@ nvcc_args=['-gencode', 'arch=compute_90,code=sm_90',
            ]
 cxx_args=['-std=c++17', '-w','-D_GLIBCXX_USE_CXX11_ABI=1']
 setup(include_package_data=True,zip_safe=True,
-    name="DCNv2",packages=find_packages(where="./"),
-    version="0.1",package_dir={'DCNv2': f'./'},
+    name="DCNv2",packages=find_packages(exclude=("./test/","./DCNv2/")),
+    version="0.1",
     description="deformable convolutional networks",
     ext_modules=[
         CppExtension(name="DCNv2",sources=[

@@ -12,8 +12,8 @@ nvcc_args=['-gencode', 'arch=compute_90,code=sm_90',
 cxx_args=['-std=c++17', '-w','-D_GLIBCXX_USE_CXX11_ABI=1']
 
 setup(include_package_data=True,zip_safe=True,install_requires=["torch"],
-      packages=find_packages(where="."),
-      name='ChannelNorm',package_dir={'ChannelNorm': './' },
+      packages=find_packages(exclude="./ChannelNorm/"),
+      name='ChannelNorm',
       ext_modules=[CUDAExtension(
         name='ChannelNorm.channelnorm_cuda',
         sources= ['../kernels/channelnorm_kernel.cu',

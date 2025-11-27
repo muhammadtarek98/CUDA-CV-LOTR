@@ -16,7 +16,7 @@ setup(
     name="smm_cuda",
     author="WeiLong",
     description="Sparse Matrix Multiplication (CUDA)",
-    packages=find_packages(where="./"),
+    packages=find_packages(exclude="./test"),
     ext_modules=[CUDAExtension(
         name="smm_cuda",
         sources=["../kernels/smm_cuda.cu"],

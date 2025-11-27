@@ -12,9 +12,8 @@ nvcc_args = ['-gencode', 'arch=compute_70,code=sm_70',
     "-O3",'-Wno-deprecated-gpu-targets', '--expt-relaxed-constexpr']
 ROOT = os.path.dirname(os.path.abspath(__file__))
 setup(include_package_data=True, zip_safe=True,
-      package_dir={'Deformable_ConvNets': f'./'},
       name='Deformable_ConvNets', install_requires=["torch"],
-      packages=find_packages(where="."),
+      packages=find_packages(exclude="./Deformable_ConvNets"),
       ext_modules=[CUDAExtension(name='Deformable_ConvNets.deform_attn_cuda',
                          package_dir={'Deformable_ConvNets': f'./Deformable_ConvNets'},
                          include_dirs=[os.path.join(ROOT, "../include/")],

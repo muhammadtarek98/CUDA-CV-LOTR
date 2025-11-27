@@ -12,9 +12,9 @@ nvcc_args=['-gencode', 'arch=compute_90,code=sm_90',
            ]
 
 setup(
-    name='lietorch',package_dir={'lietorch': './'},
+    name='lietorch',
     install_requires=["torch"],
-    packages=find_packages(),
+    packages=find_packages(exclude=("./lietorch","examples",)),
     ext_modules=[
         CUDAExtension(name='lietorch_backends',
             include_dirs=[os.path.join(ROOT, 'eigen'),

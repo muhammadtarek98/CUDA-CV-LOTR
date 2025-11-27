@@ -11,9 +11,8 @@ nvcc_args=['-gencode', 'arch=compute_90,code=sm_90',
            "-O3",'-Wno-deprecated-gpu-targets','--expt-relaxed-constexpr'
            ]
 setup(name="DepthFlowProjection",version="0.1.0",
-      packages=find_packages(where="."),
+      packages=find_packages(exclude="./DepthFlowProjection"),
       install_requires=["torch"],
-      package_dir={'DepthFlowProjection': './'},
       zip_safe=True,include_package_data=True,
       ext_modules=[CUDAExtension(
         name="DepthFlowProjection.depthflowprojection_cuda",

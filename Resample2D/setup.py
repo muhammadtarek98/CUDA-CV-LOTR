@@ -12,8 +12,7 @@ nvcc_args=['-gencode', 'arch=compute_90,code=sm_90',
            ]
 setup(include_package_data=True,
       zip_safe=True,install_requires=['torch'],
-      packages=find_packages(where='.'),
-    package_dir={'Resample2D': './' },
+      packages=find_packages(where='./Resample2D'),
     name='Resample2D',
     ext_modules=[CUDAExtension(
         name='Resample2D_cuda',

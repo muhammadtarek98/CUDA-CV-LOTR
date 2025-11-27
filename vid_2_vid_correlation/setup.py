@@ -11,8 +11,7 @@ nvcc_args=['-gencode', 'arch=compute_90,code=sm_90',
            "-O3",'-Wno-deprecated-gpu-targets','--expt-relaxed-constexpr'
            ]
 setup(include_package_data=True, zip_safe=True,
-      name='vid_2_vid_correlation', packages=find_packages("./"),
-      package_dir={'vid_2_vid_correlation': './'},
+      name='vid_2_vid_correlation', packages=find_packages(exclude="./vid_2_vid_correlation/*"),
       ext_modules=[
         CUDAExtension(name='vid_2_vid_correlation_cuda',
                       sources=['../kernels/correlation_cuda_kernel.cu',
