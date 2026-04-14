@@ -11,28 +11,20 @@ int correlation_forward_cuda(at::Tensor& input1, at::Tensor& input2, at::Tensor&
                              int stride2,
                              int corr_type_multiply)
 {
-
   int batchSize = input1.size(0);
-
   int nInputChannels = input1.size(1);
   int inputHeight = input1.size(2);
   int inputWidth = input1.size(3);
-
   int kernel_radius = (kernel_size - 1) / 2;
   int border_radius = kernel_radius + max_displacement;
-
   int paddedInputHeight = inputHeight + 2 * pad_size;
   int paddedInputWidth = inputWidth + 2 * pad_size;
-
   int nOutputChannels = ((max_displacement/stride2)*2 + 1) * ((max_displacement/stride2)*2 + 1);
-
   int outputHeight = ceil(static_cast<float>(paddedInputHeight - 2 * border_radius) / static_cast<float>(stride1));
   int outputwidth = ceil(static_cast<float>(paddedInputWidth - 2 * border_radius) / static_cast<float>(stride1));
-
   rInput1.resize_({batchSize, paddedInputHeight, paddedInputWidth, nInputChannels});
   rInput2.resize_({batchSize, paddedInputHeight, paddedInputWidth, nInputChannels});
   output.resize_({batchSize, nOutputChannels, outputHeight, outputwidth});
-
   rInput1.fill_(0);
   rInput2.fill_(0);
   output.fill_(0);
@@ -69,7 +61,6 @@ int correlation_forward_cuda(at::Tensor& input1, at::Tensor& input2, at::Tensor&
     stride1,
     stride2,
     corr_type_multiply,
-//			at::globalContext().getCurrentCUDAStream() //works for 0.4.1
            at::cuda::getCurrentCUDAStream() //works for 1.0.0
   );
 
@@ -151,7 +142,6 @@ int correlation_backward_cuda(at::Tensor& input1, at::Tensor& input2, at::Tensor
                                                 stride1, 
                                                 stride2,
                                                 corr_type_multiply,
-//			at::globalContext().getCurrentCUDAStream() //works for 0.4.1
            at::cuda::getCurrentCUDAStream() //works for 1.0.0
                                                );
 

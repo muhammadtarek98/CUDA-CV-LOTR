@@ -117,7 +117,6 @@ void modulated_deformable_im2col_cpu_kernel(const int &n, const float *data_im, 
   {
     // NOTE(CharlesShang): different from Dai Jifeng's MXNet implementation, col_buffer is of shape (c*kw*kh, N, oh, ow)
     // here columns is of shape (N, c*kw*kh, oh * ow), need to adapt axis
-
     // index index of output matrix
     const int w_col = index % width_col;
     const int h_col = (index / width_col) % height_col;
@@ -181,7 +180,6 @@ void modulated_deformable_col2im_cpu_kernel(const int &n, const float *data_col,
     const int i = (index / width_col / height_col / batch_size / kernel_w) % kernel_h;
     const int c = index / width_col / height_col / batch_size / kernel_w / kernel_h;
     // compute the start and end of the output
-
     const int deformable_group_index = c / channel_per_deformable_group;
 
     int w_out = index % width_col;

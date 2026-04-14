@@ -162,7 +162,5 @@ std::vector<at::Tensor> dcn_v2_cpu_backward(const at::Tensor &input,
         grad_bias = at::add(grad_bias, product);
     }
 
-    return {
-        grad_input, grad_offset, grad_mask, grad_weight, grad_bias
-    };
+    return std::vector<at::Tensor>{grad_input, grad_offset, grad_mask, grad_weight, grad_bias};
 }

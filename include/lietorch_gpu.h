@@ -1,6 +1,7 @@
 #pragma once
 #include <bits/stdc++.h>
 #include <torch/extension.h>
+#include "extras.hpp"
 #include <cuda.h>
 #include <cuda_runtime.h>
 #include <pybind11/pybind11.h>

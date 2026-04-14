@@ -1,6 +1,7 @@
 #define BLOCK 16
 #include <torch/extension.h>
 #include <cuda.h>
+
 #include <cuda_runtime.h>
 #include <vector>
 #include <cuda_fp16.h>
@@ -121,10 +122,7 @@ __global__ void corr_index_backward_kernel(
   }
 }
 
-std::vector<torch::Tensor> corr_index_cuda_forward(
-    torch::Tensor volume,
-    torch::Tensor coords,
-    int radius)
+std::vector<torch::Tensor> corr_index_cuda_forward(torch::Tensor volume,torch::Tensor coords,int radius)
 {
   const auto batch_size = volume.size(0);
   const auto ht = volume.size(1);

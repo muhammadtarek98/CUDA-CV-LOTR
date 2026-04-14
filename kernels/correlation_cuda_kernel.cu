@@ -339,7 +339,6 @@ int correlation_forward_cuda_kernel(at::Tensor& output,
                                     int osc,
                                     int osh,
                                     int osw,
-
                                     at::Tensor& input1,
                                     int ic,
                                     int ih,

@@ -6,13 +6,8 @@
 
 
 
-int DepthFlowProjectionLayer_gpu_forward(
-		at::Tensor&  input1,
-        at::Tensor&  input2,
-        at::Tensor&  count,
-		at::Tensor&  output,
-		int fillhole
-		)
+int DepthFlowProjectionLayer_gpu_forward(at::Tensor&  input1,at::Tensor&  input2,at::Tensor&  count,
+	at::Tensor&  output,int fillhole)
 {
 
 	int error = 1 ;
@@ -47,7 +42,6 @@ int DepthFlowProjectionLayer_gpu_forward(
 
 	int	nElement = 0;//UNUSED  THCudaTensor_nElement(state, output);
 	error = DepthFlowProjection_gpu_forward_kernel(
-//			at::globalContext().getCurrentCUDAStream(), //works for 0.4.1
            at::cuda::getCurrentCUDAStream(), //works for 1.0.0
 			nElement,w,h,channel,batch,fillhole,
 			input1_b_stride,input1_c_stride,input1_h_stride,input1_w_stride,
@@ -63,15 +57,8 @@ int DepthFlowProjectionLayer_gpu_forward(
 
 }
 
-int DepthFlowProjectionLayer_gpu_backward(
-		at::Tensor&  input1,
-		at::Tensor&  input2,
-        at::Tensor&  count,
-		at::Tensor&  output,
-        at::Tensor&  gradoutput,
-		at::Tensor&  gradinput1,
-		at::Tensor&  gradinput2
-		)
+int DepthFlowProjectionLayer_gpu_backward(at::Tensor&  input1,at::Tensor&  input2,at::Tensor&  count,
+	at::Tensor&  output,at::Tensor&  gradoutput,at::Tensor&  gradinput1,at::Tensor&  gradinput2)
 {
 	int error = 1 ;
 	int channel = input1.size( 1);
@@ -111,14 +98,12 @@ int DepthFlowProjectionLayer_gpu_backward(
 	int	nElement = 0;//UNUSED  THCudaTensor_nElement(state, gradoutput);
 
 	error  = DepthFlowProjection_gpu_backward_kernel(
-//			at::globalContext().getCurrentCUDAStream(), //works for 0.4.1
            at::cuda::getCurrentCUDAStream(), //works for 1.0.0
 			nElement, //to let the nummous
 			w,h,channel,batch,
 			input1_b_stride,input1_c_stride,input1_h_stride,input1_w_stride,
             input2_b_stride,input2_c_stride,input2_h_stride,input2_w_stride,
             count_b_stride,count_c_stride,count_h_stride,count_w_stride,
-
 			input1,
             input2,
             count,
@@ -129,7 +114,6 @@ int DepthFlowProjectionLayer_gpu_backward(
 			);
 	  if (error) {AT_ERROR("CUDA call failed");}
 	  //printf("Am I good in backward function %d",error);
-
 	return error;
 
 }

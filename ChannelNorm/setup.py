@@ -1,5 +1,4 @@
-import os
-import torch
+import os, torch
 from setuptools import setup,find_packages
 from torch.utils.cpp_extension import BuildExtension, CUDAExtension
 os.environ["TORCH_CUDA_ARCH_LIST"]="7.5;8.9;9.0"

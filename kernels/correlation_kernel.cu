@@ -1,6 +1,8 @@
 #include <torch/extension.h>
 #include <cuda_runtime.h>
 #include <bits/stdc++.h>
+#include "correlation.hpp"
+
 #define BLOCK_H 4
 #define BLOCK_W 8
 #define BLOCK_HW BLOCK_H * BLOCK_W

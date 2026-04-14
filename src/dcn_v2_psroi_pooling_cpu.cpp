@@ -1,13 +1,3 @@
-/*!
- * Copyright (c) 2017 Microsoft
- * Licensed under The MIT License [see LICENSE for details]
- * \file deformable_psroi_pooling.cu
- * \brief
- * \author Yi Li, Guodong Zhang, Jifeng Dai
-*/
-/***************** Adapted by Charles Shang *********************/
-// modified from the CUDA version for CPU use by Daniel K. Suhendro
-
 #include <bits/stdc++.h>
 #include <ATen/ATen.h>
 #include <ATen/ceil_div.h>
