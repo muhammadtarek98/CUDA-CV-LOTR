@@ -6,7 +6,6 @@ void exp_forward_kernel(const scalar_t* a_ptr, scalar_t* X_ptr, int batch_size) 
     // exponential map forward kernel
     using Tangent = Eigen::Matrix<scalar_t,Group::K,1>;
     using Data = Eigen::Matrix<scalar_t,Group::N,1>;
-    
     at::parallel_for(0, batch_size, 1, [&](int64_t start, int64_t end) {
         for (int64_t i=start; i<end; i++) {
             Tangent a(a_ptr + i*Group::K);
@@ -48,7 +47,6 @@ void log_backward_kernel(const scalar_t* grad, const scalar_t* X_ptr, scalar_t* 
     // logarithm map backward kernel
     using Tangent = Eigen::Matrix<scalar_t,Group::K,1>;
     using Grad = Eigen::Matrix<scalar_t,1,Group::K>;
-
     at::parallel_for(0, batch_size, 1, [&](int64_t start, int64_t end) {
         for (int64_t i=start; i<end; i++) {
             Tangent a = Group(X_ptr + i*Group::N).Log();
@@ -63,7 +61,6 @@ void inv_forward_kernel(const scalar_t* X_ptr, scalar_t* Y_ptr, int batch_size) 
     // group inverse forward kernel
     using Tangent = Eigen::Matrix<scalar_t,Group::K,1>;
     using Data = Eigen::Matrix<scalar_t,Group::N,1>;
-
     at::parallel_for(0, batch_size, 1, [&](int64_t start, int64_t end) {
         for (int64_t i=start; i<end; i++) {
             Group X(X_ptr + i*Group::N);
@@ -77,7 +74,6 @@ void inv_backward_kernel(const scalar_t* grad, const scalar_t* X_ptr, scalar_t *
     // group inverse backward kernel
     using Tangent = Eigen::Matrix<scalar_t,Group::K,1>;
     using Grad = Eigen::Matrix<scalar_t,1,Group::K>;
-
     at::parallel_for(0, batch_size, 1, [&](int64_t start, int64_t end) {
         for (int64_t i=start; i<end; i++) {
             Group Y = Group(X_ptr + i*Group::N).inv();
@@ -144,10 +140,8 @@ void adj_backward_kernel(const scalar_t* grad, const scalar_t* X_ptr, const scal
         for (int64_t i=start; i<end; i++) {
             Group X(X_ptr + i*Group::N);
             Grad db(grad + i*Group::K);
-
             Tangent a(a_ptr + i*Group::K);
             Tangent b = X.Adj() * a;
-
             Eigen::Map<Grad>(da + i*Group::K) = db * X.Adj();
             Eigen::Map<Grad>(dX + i*Group::N) = -db * Group::adj(b);
         }
@@ -181,7 +175,6 @@ void adjT_backward_kernel(const scalar_t* grad, const scalar_t* X_ptr, const sca
             Group X(X_ptr + i*Group::N);        
             Tangent db(grad + i*Group::K);
             Grad a(a_ptr + i*Group::K);
-
             Eigen::Map<Tangent>(da + i*Group::K) = X.Adj(db);
             Eigen::Map<Grad>(dX + i*Group::N) = -a * Group::adj(X.Adj(db));
         }
@@ -195,7 +188,6 @@ void act_forward_kernel(const scalar_t* X_ptr, const scalar_t* p_ptr, scalar_t* 
     using Tangent = Eigen::Matrix<scalar_t,Group::K,1>;
     using Data = Eigen::Matrix<scalar_t,Group::N,1>;
     using Point = Eigen::Matrix<scalar_t,3,1>;
-
     at::parallel_for(0, batch_size, 1, [&](int64_t start, int64_t end) {
         for (int64_t i=start; i<end; i++) {
             Group X(X_ptr + i*Group::N);
@@ -275,7 +267,8 @@ void act4_forward_kernel(const scalar_t* X_ptr, const scalar_t* p_ptr, scalar_t*
 }
 
 template <typename Group, typename scalar_t>
-void act4_backward_kernel(const scalar_t* grad, const scalar_t* X_ptr, const scalar_t* p_ptr, scalar_t* dX, scalar_t* dp, int batch_size) {
+void act4_backward_kernel(const scalar_t* grad, const scalar_t* X_ptr, const scalar_t* p_ptr,
+    scalar_t* dX, scalar_t* dp, int batch_size) {
     // action on homogeneous point backward kernel
 
     using Tangent = Eigen::Matrix<scalar_t,Group::K,1>;
@@ -289,7 +282,6 @@ void act4_backward_kernel(const scalar_t* grad, const scalar_t* X_ptr, const sca
             Group X(X_ptr + i*Group::N);
             Point p(p_ptr + i*4);
             PointGrad dq(grad + i*4);
-
             Eigen::Map<PointGrad>(dp + i*4) = dq * X.Matrix4x4();
             const Point q = X.act4(p);
             Eigen::Map<Grad>(dX + i*Group::N) = dq * Group::act4_jacobian(q);
@@ -303,7 +295,6 @@ void as_matrix_forward_kernel(const scalar_t* X_ptr, scalar_t* T_ptr, int batch_
     using Tangent = Eigen::Matrix<scalar_t,Group::K,1>;
     using Data = Eigen::Matrix<scalar_t,Group::N,1>;
     using Matrix4 = Eigen::Matrix<scalar_t,4,4,Eigen::RowMajor>;
-
     at::parallel_for(0, batch_size, 1, [&](int64_t start, int64_t end) {
         for (int64_t i=start; i<end; i++) {
             Group X(X_ptr + i*Group::N);
@@ -345,7 +336,6 @@ void jleft_forward_kernel(const scalar_t* X_ptr, const scalar_t* a_ptr, scalar_t
 torch::Tensor exp_forward_cpu(int group_id, torch::Tensor a) {
     int batch_size = a.size(0);
     torch::Tensor X;
-
     DISPATCH_GROUP_AND_FLOATING_TYPES(group_id, a.scalar_type(), "exp_forward_kernel", ([&] {
         X = torch::zeros({batch_size, group_t::N}, a.options());
         exp_forward_kernel<group_t, scalar_t>(
@@ -360,7 +350,6 @@ torch::Tensor exp_forward_cpu(int group_id, torch::Tensor a) {
 std::vector<torch::Tensor> exp_backward_cpu(int group_id, torch::Tensor grad, torch::Tensor a) {
     int batch_size = a.size(0);
     torch::Tensor da = torch::zeros(a.sizes(), grad.options());
-
     DISPATCH_GROUP_AND_FLOATING_TYPES(group_id, a.scalar_type(), "exp_backward_kernel", ([&] {
         exp_backward_kernel<group_t, scalar_t>(
             grad.data_ptr<scalar_t>(), 
@@ -480,7 +469,8 @@ torch::Tensor adj_forward_cpu(int group_id, torch::Tensor X, torch::Tensor a) {
     return b;
 }
 
-std::vector<torch::Tensor> adj_backward_cpu(int group_id, torch::Tensor grad, torch::Tensor X, torch::Tensor a) {
+std::vector<torch::Tensor> adj_backward_cpu(int group_id, torch::Tensor grad, torch::Tensor X,
+    torch::Tensor a) {
     int batch_size = X.size(0);
     torch::Tensor dX = torch::zeros(X.sizes(), grad.options());
     torch::Tensor da = torch::zeros(a.sizes(), grad.options());
@@ -514,11 +504,11 @@ torch::Tensor adjT_forward_cpu(int group_id, torch::Tensor X, torch::Tensor a) {
     return b;
 }
 
-std::vector<torch::Tensor> adjT_backward_cpu(int group_id, torch::Tensor grad, torch::Tensor X, torch::Tensor a) {
+std::vector<torch::Tensor> adjT_backward_cpu(int group_id, torch::Tensor grad, torch::Tensor X,
+    torch::Tensor a) {
     int batch_size = X.size(0);
     torch::Tensor dX = torch::zeros(X.sizes(), grad.options());
     torch::Tensor da = torch::zeros(a.sizes(), grad.options());
-
     DISPATCH_GROUP_AND_FLOATING_TYPES(group_id, X.scalar_type(), "adjT_backward_kernel", ([&] {
         adjT_backward_kernel<group_t, scalar_t>(
             grad.data_ptr<scalar_t>(), 
@@ -548,11 +538,11 @@ torch::Tensor act_forward_cpu(int group_id, torch::Tensor X, torch::Tensor p) {
     return q;
 }
 
-std::vector<torch::Tensor> act_backward_cpu(int group_id, torch::Tensor grad, torch::Tensor X, torch::Tensor p) {
+std::vector<torch::Tensor> act_backward_cpu(int group_id, torch::Tensor grad, torch::Tensor X,
+    torch::Tensor p) {
     int batch_size = X.size(0);
     torch::Tensor dX = torch::zeros(X.sizes(), grad.options());
     torch::Tensor dp = torch::zeros(p.sizes(), grad.options());
-
     DISPATCH_GROUP_AND_FLOATING_TYPES(group_id, X.scalar_type(), "act_backward_kernel", ([&] {
         act_backward_kernel<group_t, scalar_t>(
             grad.data_ptr<scalar_t>(), 
@@ -563,7 +553,7 @@ std::vector<torch::Tensor> act_backward_cpu(int group_id, torch::Tensor grad, to
             batch_size);
     }));
 
-    return {dX, dp};
+    return std::vector<torch::Tensor>{dX, dp};
 }
 
 
@@ -597,7 +587,7 @@ std::vector<torch::Tensor> act4_backward_cpu(int group_id, torch::Tensor grad, t
             batch_size);
     }));
 
-    return {dX, dp};
+    return std::vector<torch::Tensor>{dX, dp};
 }
 
 

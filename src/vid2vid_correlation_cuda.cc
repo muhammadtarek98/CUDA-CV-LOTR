@@ -2,11 +2,8 @@
 #include <ATen/ATen.h>
 #include <ATen/Context.h>
 #include <ATen/cuda/CUDAContext.h>
-#include <stdio.h>
-#include <iostream>
-
+#include<bits/stdc++.h>
 #include "vid2vid_correlation_cuda_kernel.cuh"
-
 int correlation_forward_cuda(at::Tensor& input1, at::Tensor& input2, at::Tensor& rInput1, at::Tensor& rInput2, at::Tensor& output,
                              int pad_size,
                              int kernel_size,
@@ -74,7 +71,6 @@ int correlation_forward_cuda(at::Tensor& input1, at::Tensor& input2, at::Tensor&
     stride2,
     corr_type_multiply,
 	at::cuda::getCurrentCUDAStream()
-    //at::globalContext().getCurrentCUDAStream()
   );
 
   //check for errors
@@ -156,7 +152,6 @@ int correlation_backward_cuda(at::Tensor& input1, at::Tensor& input2, at::Tensor
                                                 stride2,
                                                 corr_type_multiply,
 												at::cuda::getCurrentCUDAStream()
-                                                //at::globalContext().getCurrentCUDAStream()
                                                );
 
   if (!success) {

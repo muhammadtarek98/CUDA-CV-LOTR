@@ -39,9 +39,10 @@ set(VID2VID_CORRELATION_SRC src/vid2vid_correlation_cuda.cc kernels/vid2vid_corr
 set(RESAMPLE_2D_SRC src/resample2d_cuda.cc kernels/resample2d_kernel.cu)
 set(DCNV2_LATEST src/dcn_v2_cpu.cpp src/dcn_v2_im2col_cpu.cpp src/vision.cpp src/dcn_v2_psroi_pooling_cpu.cpp
     kernels/dcn_v2_psroi_pooling_cuda.cu kernels/dcn_v2_im2col_cuda.cu kernels/dcn_v2_cuda.cu
-        kernels/correlation_kernel.cu src/correlation.cpp
-        include/dcn_v2_im2col_cuda.h)
+        kernels/correlation_kernel.cu src/correlation.cpp)
 set(OPS_SMM kernels/smm_cuda.cu)
+set(MS_DEFORMABLE_ATTN_SRC src/ms_deform_attn_vision.cpp src/ms_deform_attn_cpu.cpp
+kernels/ms_deform_attn_cuda.cu)
 include_directories(
         ${Python3_INCLUDE_DIRS}
         ${TORCH_INCLUDE_DIRS}
@@ -54,9 +55,14 @@ include_directories(
 set(OPS Deformable_ConvNets correlation lietorch_extra lietorch MinDepthFlowProjection
         SeparableConvFlow SeparableConv  vid_2_vid_correlation ChannelNorm Resample2D
         Interpolation InterpolationCH DepthFlowProjection FlowProjection FilterInterpolation
-        DCNv2_latest ops_smm)
+        DCNv2_latest ops_smm MultiScaleDeformableAttention)
 set_source_files_properties(src/deform_attn_ext.cpp PROPERTIESLANGUAGE CUDA)
 set(CUDA_NVCC_FLAGS "${CUDA_NVCC_FLAGS} -gencode arch=compute_${TORCH_CUDA_ARCH_LIST},code=sm_${TORCH_CUDA_ARCH_LIST}")
+
+add_library(MultiScaleDeformableAttention SHARED ${MS_DEFORMABLE_ATTN_SRC})
+target_include_directories(MultiScaleDeformableAttention PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
+target_link_libraries(MultiScaleDeformableAttention PRIVATE "${TORCH_LIBRARIES}" CUDA::cudart pybind11::module Python3::Python)
+set_target_properties(MultiScaleDeformableAttention PROPERTIES SUFFIX ".so" PREFIX "" LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/vid_2_vid_correlation)
 
 
 add_library(vid_2_vid_correlation SHARED ${VID2VID_CORRELATION_SRC})
@@ -86,8 +92,7 @@ target_include_directories(Deformable_ConvNets PRIVATE ${CMAKE_CURRENT_SOURCE_DI
 target_link_libraries(Deformable_ConvNets PRIVATE "${TORCH_LIBRARIES}" CUDA::cudart pybind11::module Python3::Python)
 set_target_properties(Deformable_ConvNets PROPERTIES SUFFIX ".so" PREFIX "" LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/Deformable_ConvNets)
 
-add_library(DCNv2_latest SHARED ${DCNV2_LATEST}
-        include/dcn_v2_im2col_cuda.h)
+add_library(DCNv2_latest SHARED ${DCNV2_LATEST})
 target_include_directories(DCNv2_latest PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_link_libraries(DCNv2_latest PRIVATE "${TORCH_LIBRARIES}" CUDA::cudart pybind11::module Python3::Python)
 set_target_properties(DCNv2_latest PROPERTIES SUFFIX ".so" PREFIX "" LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/DCNv2_latest)

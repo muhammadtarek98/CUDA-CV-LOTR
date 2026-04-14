@@ -5,14 +5,10 @@
 #include <ATen/cuda/CUDAContext.h>
 
 
-int minDepthFlowProjectionLayer_gpu_forward(
-		at::Tensor&  input1,
-        at::Tensor&  input2,
-        at::Tensor&  count,
-		at::Tensor&  output,int fillhole)
+int minDepthFlowProjectionLayer_gpu_forward(at::Tensor&input1,at::Tensor&input2,at::Tensor&count,
+	at::Tensor&output,int fillhole)
 {
 	int error = 1 ;
-
 	int channel = input1.size( 1);
 	if(channel!= 2) return error;
 	int batch = input1.size(0);
@@ -49,14 +45,8 @@ int minDepthFlowProjectionLayer_gpu_forward(
 	return error;
 }
 
-int minDepthFlowProjectionLayer_gpu_backward(
-		at::Tensor&  input1,
-		at::Tensor&  input2,
-        at::Tensor&  count,
-		at::Tensor&  output,
-        at::Tensor&  gradoutput,
-		at::Tensor&  gradinput1,
-		at::Tensor&  gradinput2)
+int minDepthFlowProjectionLayer_gpu_backward(at::Tensor&input1,at::Tensor&input2,at::Tensor&count,
+	at::Tensor&output,at::Tensor&gradoutput,at::Tensor&gradinput1,at::Tensor&gradinput2)
 {
 	int error = 1 ;
 	int channel = input1.size( 1);
@@ -93,8 +83,8 @@ int minDepthFlowProjectionLayer_gpu_backward(
 	int	nElement = 0;//UNUSED
 
 	error  = minDepthFlowProjection_gpu_backward_kernel(
-           at::cuda::getCurrentCUDAStream(), //works for 1.0.0
-			nElement, //to let the nummous
+           at::cuda::getCurrentCUDAStream(),
+			nElement,
 			w,h,channel,batch,
 			input1_b_stride,input1_c_stride,input1_h_stride,input1_w_stride,
             input2_b_stride,input2_c_stride,input2_h_stride,input2_w_stride,

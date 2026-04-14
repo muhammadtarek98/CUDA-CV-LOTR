@@ -1,14 +1,13 @@
 #include "separableconv_cuda_kernel.cuh"
 #include <Python.h>
 #include <ATen/ATen.h>
-#include <ATen/cuda/CUDAContext.h> //works for 1.0.0
+#include <ATen/cuda/CUDAContext.h>
 #include <torch/extension.h>
 #include <torch/torch.h>
 
 
 int SeparableConvLayer_gpu_forward(at::Tensor&  input1,at::Tensor&  input2,at::Tensor&  input3,at::Tensor&  output){
 	int error = 1 ;
-
 	int channel = input1.size( 1);
 	if(channel!=3) return error;
 	int batch = input1.size(0);
@@ -41,7 +40,6 @@ int SeparableConvLayer_gpu_forward(at::Tensor&  input1,at::Tensor&  input2,at::T
 	int output_h_stride = output.stride(2);
 	int output_w_stride = output.stride(3);
 
-
 	//TODO: do we need to assert the w_stride to be 1
     if(input1_w_stride !=1) return error;
 	if(input2_w_stride !=1) return error;
@@ -54,9 +52,8 @@ int SeparableConvLayer_gpu_forward(at::Tensor&  input1,at::Tensor&  input2,at::T
 
 	int	nElement = 0;//UNUSED  THCudaTensor_nElement(state, output);
 
-
 	error = SeparableConvLayer_gpu_forward_kernel(
-           at::cuda::getCurrentCUDAStream(), //works for 1.0.0
+           at::cuda::getCurrentCUDAStream(),
 			nElement,w,h,channel,batch,  input2.size(1),
 			input1_b_stride,input1_c_stride,input1_h_stride,input1_w_stride,
 			input2_b_stride,input2_c_stride,input2_h_stride,input2_w_stride,
@@ -66,16 +63,9 @@ int SeparableConvLayer_gpu_forward(at::Tensor&  input1,at::Tensor&  input2,at::T
 	  if (error) {AT_ERROR("CUDA call failed");}
 	return error;
 		}
-int SeparableConvLayer_gpu_backward(
-		at::Tensor&  input1,
-		at::Tensor&  input2,
-		at::Tensor&  input3,
-		at::Tensor&  gradoutput,
-		at::Tensor&  gradinput1,
-		at::Tensor&  gradinput2,
-		at::Tensor&  gradinput3
-		)
-		{
+int SeparableConvLayer_gpu_backward(at::Tensor&  input1,at::Tensor&  input2,at::Tensor&  input3,
+	at::Tensor&  gradoutput,at::Tensor&  gradinput1,at::Tensor&  gradinput2,at::Tensor&  gradinput3)
+{
     int error = 1 ;
 	int channel = input1.size( 1);
 	if(channel!=3) return error;
@@ -125,8 +115,8 @@ int SeparableConvLayer_gpu_backward(
 	int	nElement = 0;//UNUSED
 
 	error  = SeparableConvLayer_gpu_backward_kernel(
-           at::cuda::getCurrentCUDAStream(), //works for 1.0.0
-			nElement, //to let the nummous
+           at::cuda::getCurrentCUDAStream(),
+			nElement,
 			w,h,channel,batch,  input2.size(1),
 			input1_b_stride,input1_c_stride,input1_h_stride,input1_w_stride,
 			input2_b_stride,input2_c_stride,input2_h_stride,input2_w_stride,
