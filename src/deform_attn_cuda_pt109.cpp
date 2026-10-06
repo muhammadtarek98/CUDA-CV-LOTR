@@ -1,7 +1,7 @@
 #include <torch/extension.h>
 #include <ATen/DeviceGuard.h>
 #include <bits/stdc++.h>
-#include"deform_attn_cuda_pt109.h"
+#include"deform_attn_cuda_pt109.hpp"
 
 void deform_attn_cuda_forward(at::Tensor q, at::Tensor kv, at::Tensor offset, at::Tensor &output,
 at::Tensor columns, at::Tensor &attns, at::Tensor mask_ones,int kernel_h, int kernel_w,

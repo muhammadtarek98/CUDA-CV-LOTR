@@ -1,4 +1,4 @@
-#include "lietorch_cpu.h"
+#include "lietorch_cpu.hpp"
 
 
 template <typename Group, typename scalar_t>

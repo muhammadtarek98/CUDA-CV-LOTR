@@ -13,11 +13,11 @@ __forceinline__ __device__  bool within_bounds(const int &h, const int &w, const
 
 template <typename scalar_t>
 __global__ void corr_forward_kernel(
-    const torch::PackedTensorAccessor32<scalar_t,4,torch::RestrictPtrTraits> &fmap1,
-    const torch::PackedTensorAccessor32<scalar_t,4,torch::RestrictPtrTraits> &fmap2,
-    const torch::PackedTensorAccessor32<scalar_t,5,torch::RestrictPtrTraits> &coords,
+    const torch::PackedTensorAccessor32<scalar_t,4,torch::RestrictPtrTraits> fmap1,
+    const torch::PackedTensorAccessor32<scalar_t,4,torch::RestrictPtrTraits> fmap2,
+    const torch::PackedTensorAccessor32<scalar_t,5,torch::RestrictPtrTraits> coords,
     torch::PackedTensorAccessor32<scalar_t,5,torch::RestrictPtrTraits> corr,
-    const int &r)
+    const int r)
 {
   unsigned int b = blockIdx.x;
   unsigned int h0 = blockIdx.y * blockDim.x;

@@ -13,7 +13,7 @@
 * Modified by Bowen Cheng from https://github.com/fundamentalvision/Deformable-DETR
 */
 
-#include <vector>
+#include <bits/stdc++.h>
 #include <ATen/ATen.h>
 #include <ATen/cuda/CUDAContext.h>
 at::Tensor ms_deform_attn_cpu_forward(const at::Tensor &value, const at::Tensor &spatial_shapes,

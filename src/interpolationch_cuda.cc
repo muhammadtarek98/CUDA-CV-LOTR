@@ -1,11 +1,7 @@
 #include "interpolationch_cuda_kernel.cuh"
 #include <torch/torch.h>
 #include <ATen/ATen.h>
-#include <stdio.h>
-#include <ATen/cuda/CUDAContext.h> //works for 1.0.0
-
-
-
+#include <ATen/cuda/CUDAContext.h>
 int InterpolationChLayer_gpu_forward(
 		at::Tensor&  input1,
 		at::Tensor&  input2,

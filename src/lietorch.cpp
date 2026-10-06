@@ -1,5 +1,5 @@
-#include "lietorch_gpu.h"
-#include "lietorch_cpu.h"
+#include "lietorch_gpu.hpp"
+#include "lietorch_cpu.hpp"
 
 #define CHECK_CONTIGUOUS(x) TORCH_CHECK(x.is_contiguous(), #x " must be contiguous")
 

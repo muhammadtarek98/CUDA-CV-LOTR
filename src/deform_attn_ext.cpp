@@ -1,6 +1,6 @@
 #include <torch/extension.h>
 #include <ATen/DeviceGuard.h>
-#include "deform_attn_cuda_pt110.h"
+#include "deform_attn_cuda_pt110.hpp"
 #include<bits/stdc++.h>
 #define WITH_CUDA  // always use cuda
 void deform_attn_forward(at::Tensor q, at::Tensor kv, at::Tensor offset, at::Tensor output,
