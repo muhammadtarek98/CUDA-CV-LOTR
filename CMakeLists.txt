@@ -43,6 +43,20 @@ set(DCNV2_LATEST src/dcn_v2_cpu.cpp src/dcn_v2_im2col_cpu.cpp src/vision.cpp src
 set(OPS_SMM kernels/smm_cuda.cu)
 set(MS_DEFORMABLE_ATTN_SRC src/ms_deform_attn_vision.cpp src/ms_deform_attn_cpu.cpp
 kernels/ms_deform_attn_cuda.cu)
+set(IOU3D_NMS_SRC kernels/iou3d_nms_kernel.cu src/iou3d_cpu.cpp src/iou3d_nms.cpp src/iou3d_nms_api.cpp)
+set(POINTNET2_BATCH_SRC kernels/Pointnet2_batch_ball_query_gpu.cu kernels/Pointnet2_batch_group_points_gpu.cu kernels/Pointnet2_batch_interpolate_gpu.cu
+        kernels/Pointnet2_batch_sampling_gpu.cu src/Pointnet2_batch_ball_query.cpp src/Pointnet2_batch_group_points.cpp src/Pointnet2_batch_interpolate.cpp
+        src/Pointnet2_batch_pointnet2_api.cpp src/Pointnet2_batch_sampling.cpp)
+
+set(POINTNET2_STACK_SRC kernels/Pointnet2_stack_ball_query_gpu.cu kernels/Pointnet2_stack_group_points_gpu.cu kernels/Pointnet2_stack_interpolate_gpu.cu kernels/Pointnet2_stack_sampling_gpu.cu
+        kernels/Pointnet2_stack_vector_pool_gpu.cu kernels/Pointnet2_stack_voxel_query_gpu.cu src/Pointnet2_stack_ball_query.cpp src/Pointnet2_stack_group_points.cpp src/Pointnet2_stack_interpolate.cpp
+        src/Pointnet2_stack_pointnet2_api.cpp src/Pointnet2_stack_sampling.cpp src/Pointnet2_stack_vector_pool.cpp src/Pointnet2_stack_voxel_query.cpp)
+
+set(ROI_AWARE_POOL_3D_SRC kernels/roiaware_pool3d_kernel.cu src/roiaware_pool3d.cpp)
+set(ROI_POINT_POOL3D kernels/roipoint_pool3d_kernel.cu src/roipoint_pool3d.cpp)
+
+
+
 include_directories(
         ${Python3_INCLUDE_DIRS}
         ${TORCH_INCLUDE_DIRS}
@@ -50,19 +64,49 @@ include_directories(
         ${CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIES}
         ${CMAKE_CURRENT_SOURCE_DIR}/include
         ${CMAKE_CURRENT_SOURCE_DIR}/kernels
-        ${CMAKE_CURRENT_SOURCE_DIR}/src
-)
+        ${CMAKE_CURRENT_SOURCE_DIR}/src)
+
+
 set(OPS Deformable_ConvNets correlation lietorch_extra lietorch MinDepthFlowProjection
         SeparableConvFlow SeparableConv  vid_2_vid_correlation ChannelNorm Resample2D
         Interpolation InterpolationCH DepthFlowProjection FlowProjection FilterInterpolation
-        DCNv2_latest ops_smm MultiScaleDeformableAttention)
+        DCNv2_latest ops_smm MultiScaleDeformableAttention IOU3D_NMS Pointnet2_batch ROI_aware_pool_3D Pointnet2_stack ROI_point_pool3D)
 set_source_files_properties(src/deform_attn_ext.cpp PROPERTIESLANGUAGE CUDA)
 set(CUDA_NVCC_FLAGS "${CUDA_NVCC_FLAGS} -gencode arch=compute_${TORCH_CUDA_ARCH_LIST},code=sm_${TORCH_CUDA_ARCH_LIST}")
+
+add_library(IOU3D_NMS SHARED ${IOU3D_NMS_SRC})
+target_include_directories(IOU3D_NMS PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
+target_link_libraries(IOU3D_NMS PRIVATE "${TORCH_LIBRARIES}" CUDA::cudart pybind11::module Python3::Python)
+set_target_properties(IOU3D_NMS PROPERTIES SUFFIX ".so" PREFIX "" LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/IOU3D_NMS)
+
+
+add_library(ROI_aware_pool_3D SHARED ${ROI_AWARE_POOL_3D_SRC})
+target_include_directories(ROI_aware_pool_3D PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
+target_link_libraries(ROI_aware_pool_3D PRIVATE "${TORCH_LIBRARIES}" CUDA::cudart pybind11::module Python3::Python)
+set_target_properties(ROI_aware_pool_3D PROPERTIES SUFFIX ".so" PREFIX "" LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/ROI_aware_pool_3D)
+
+
+add_library(Pointnet2_batch SHARED ${POINTNET2_BATCH_SRC})
+target_include_directories(Pointnet2_batch PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
+target_link_libraries(Pointnet2_batch PRIVATE "${TORCH_LIBRARIES}" CUDA::cudart pybind11::module Python3::Python)
+set_target_properties(Pointnet2_batch PROPERTIES SUFFIX ".so" PREFIX "" LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/Pointnet2_batch)
+
+
+add_library(Pointnet2_stack SHARED ${POINTNET2_STACK_SRC})
+target_include_directories(Pointnet2_stack PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
+target_link_libraries(Pointnet2_stack PRIVATE "${TORCH_LIBRARIES}" CUDA::cudart pybind11::module Python3::Python)
+set_target_properties(Pointnet2_stack PROPERTIES SUFFIX ".so" PREFIX "" LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/Pointnet2_stack)
+
+
+add_library(ROI_point_pool3D SHARED ${ROI_POINT_POOL3D})
+target_include_directories(ROI_point_pool3D PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
+target_link_libraries(ROI_point_pool3D PRIVATE "${TORCH_LIBRARIES}" CUDA::cudart pybind11::module Python3::Python)
+set_target_properties(ROI_point_pool3D PROPERTIES SUFFIX ".so" PREFIX "" LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/ROI_point_pool3D)
 
 add_library(MultiScaleDeformableAttention SHARED ${MS_DEFORMABLE_ATTN_SRC})
 target_include_directories(MultiScaleDeformableAttention PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_link_libraries(MultiScaleDeformableAttention PRIVATE "${TORCH_LIBRARIES}" CUDA::cudart pybind11::module Python3::Python)
-set_target_properties(MultiScaleDeformableAttention PROPERTIES SUFFIX ".so" PREFIX "" LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/vid_2_vid_correlation)
+set_target_properties(MultiScaleDeformableAttention PROPERTIES SUFFIX ".so" PREFIX "" LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/MultiScaleDeformableAttention)
 
 
 add_library(vid_2_vid_correlation SHARED ${VID2VID_CORRELATION_SRC})
@@ -211,4 +255,8 @@ add_custom_target(install_all DEPENDS
         install_ops_smm
         install_DepthFlowProjection
         install_FilterInterpolation
-        install_SeparableConv install_SeparableConvFlow COMMENT "Installing all Python modules")
+        install_SeparableConv install_SeparableConvFlow
+        install_IOU3D_NMS install_ROI_aware_pool_3D
+        install_Pointnet2_batch install_Pointnet2_stack
+        install_ROI_point_pool3D install_MultiScaleDeformableAttention
+        COMMENT "Installing all Python modules")
