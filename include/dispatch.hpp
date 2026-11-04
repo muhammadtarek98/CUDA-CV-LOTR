@@ -1,9 +1,8 @@
 #pragma once
-
-#include "so3.h"
-#include "rxso3.h"
-#include "se3.h"
-#include "sim3.h"
+#include "so3.hpp"
+#include "rxso3.hpp"
+#include "se3.hpp"
+#include "sim3.hpp"
 #include <torch/extension.h>
 
 

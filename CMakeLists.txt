@@ -5,20 +5,45 @@ set(CUDA_TOOLKIT_ROOT_DIR "/usr/local/cuda-12.8")
 project(custom_pytorch_layers_and_operations LANGUAGES C CXX CUDA)
 enable_language(CUDA)
 set(CMAKE_CXX_STANDARD 17)
+include(FetchContent)
 find_package(CUDAToolkit REQUIRED)
 find_package(Python3 COMPONENTS Development Interpreter REQUIRED)
-find_package(pybind11 CONFIG REQUIRED)
-find_package(Eigen3 REQUIRED)
+find_package(pybind11 QUIET)
+if (pybind11_FOUND)
+    message("pybind11 found")
+    set(USE_PYBIND11 TRUE)
+else ()
+        FetchContent_Declare(
+        pybind11
+        GIT_REPOSITORY https://github.com/pybind/pybind11.git
+        GIT_TAG master
+        GIT_SHALLOW FALSE
+        SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/third_party/pybind11)
+    FetchContent_MakeAvailable(pybind11)
+        set(USE_PYBIND11 TRUE)
+endif ()
+
+
+find_package(Eigen3 QUIET)
+if (Eigen3_FOUND)
+    message("Eigen3 found")
+    set(USE_Eigen3 TRUE)
+else ()
+    FetchContent_Declare(
+            Eigen3
+            GIT_REPOSITORY https://gitlab.com/libeigen/eigen.git
+            GIT_TAG master
+            GIT_SHALLOW FALSE
+            SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/third_party/Eigen3
+    )
+    FetchContent_MakeAvailable(Eigen3)
+    set(USE_EIGEN3 TRUE)
+
+endif ()
 set(PYTHON_EXECUTABLE ${Python3_EXECUTABLE})
 set(PYTHON_INCLUDE_DIR ${Python3_INCLUDE_DIRS})
 set(PYTHON_LIBRARY ${Python3_LIBRARIES})
-execute_process(
-        COMMAND python3 -c "import torch; print(torch.utils.cmake_prefix_path)"
-        OUTPUT_VARIABLE TORCH_PREFIX_PATH
-        OUTPUT_STRIP_TRAILING_WHITESPACE
-)
-message(${TORCH_PREFIX_PATH})
-find_package(Torch REQUIRED PATHS ${TORCH_PREFIX_PATH})
+find_package(Torch REQUIRED)
 set(DEFORMABLE_CONVNET_V2 kernels/deform_attn_cuda_kernel.cu src/deform_attn_cuda_pt109.cpp
         src/deform_attn_cuda_pt110.cpp src/deform_attn_ext.cpp)
 set(LIETORCH_SRC src/lietorch.cpp src/lietorch_cpu.cpp kernels/lietorch_gpu.cu)
@@ -174,7 +199,7 @@ set_target_properties(MinDepthFlowProjection PROPERTIES
 
 add_library(lietorch_extra SHARED ${LIE_TORCH_EXTRA_SRC})
 target_include_directories(lietorch_extra PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
-target_link_libraries(lietorch_extra PRIVATE "${TORCH_LIBRARIES}" CUDA::cudart ${Eigen3_LIBRARIES} pybind11::module
+target_link_libraries(lietorch_extra PRIVATE "${TORCH_LIBRARIES}" CUDA::cudart Eigen3::Eigen pybind11::module
         Python3::Python correlation)
 set_target_properties(lietorch_extra PROPERTIES
         SUFFIX ".so" PREFIX "" LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/lietorch)
@@ -184,7 +209,7 @@ target_include_directories(lietorch PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include
         ${CMAKE_CURRENT_SOURCE_DIR}/kernels/*.cu
         ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cc)
 target_link_libraries(lietorch PRIVATE "${TORCH_LIBRARIES}" pybind11::module CUDA::cudart Python3::Python
-        ${Eigen3_LIBRARIES} lietorch_extra correlation)
+        Eigen3::Eigen lietorch_extra correlation)
 set_target_properties(lietorch PROPERTIES
         SUFFIX ".so" PREFIX "" LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/lietorch)
 

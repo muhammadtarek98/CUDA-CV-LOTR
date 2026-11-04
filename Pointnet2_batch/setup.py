@@ -1,6 +1,7 @@
 import os, torch
 from setuptools import setup,find_packages
 from torch.utils.cpp_extension import BuildExtension, CUDAExtension
+print(torch.__version__)
 os.environ["TORCH_CUDA_ARCH_LIST"]="7.5;8.9;9.0"
 ROOT = os.path.dirname(os.path.abspath(__file__))
 nvcc_args=['-gencode', 'arch=compute_90,code=sm_90',

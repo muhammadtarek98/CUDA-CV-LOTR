@@ -1,12 +1,12 @@
 #pragma once
-#include "common.h"
-#include "dispatch.h"
-#include "so3.h"
-#include "rxso3.h"
-#include "se3.h"
-#include "sim3.h"
+#include "common.hpp"
+#include "dispatch.hpp"
+#include "so3.hpp"
+#include "rxso3.hpp"
+#include "se3.hpp"
+#include "sim3.hpp"
 #include <Eigen/Dense>
-#include <bits/stdc++.h>
+#include <vector>
 #include <torch/extension.h>
 #include <pybind11/pybind11.h>
 

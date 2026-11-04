@@ -1,6 +1,6 @@
 #pragma once
-#include "common.h"
-#include "so3.h"
+#include "common.hpp"
+#include "so3.hpp"
 #include <Eigen/Dense>
 #include <Eigen/Geometry>
 

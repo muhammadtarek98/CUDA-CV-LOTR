@@ -1,7 +1,7 @@
 #pragma once
-#include "common.h"
-#include "so3.h"
-#include "rxso3.h"
+#include "common.hpp"
+#include "so3.hpp"
+#include "rxso3.hpp"
 #include <stdio.h>
 #include <iostream>
 #include <Eigen/Dense>

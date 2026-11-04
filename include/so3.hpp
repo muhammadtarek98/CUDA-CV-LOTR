@@ -1,7 +1,7 @@
 #pragma once
-#include "common.h"
+#include "common.hpp"
 #include <Eigen/Dense>
-#include <Eigen/Geometry> 
+#include <Eigen/Geometry>
 
 
 template <typename Scalar>

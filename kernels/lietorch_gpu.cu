@@ -1,10 +1,10 @@
-#include "lietorch_gpu.h"
-#include "common.h"
-#include "dispatch.h"
-#include "so3.h"
-#include "rxso3.h"
-#include "se3.h"
-#include "sim3.h"
+#include "lietorch_gpu.hpp"
+#include "common.hpp"
+#include "dispatch.hpp"
+#include "so3.hpp"
+#include "rxso3.hpp"
+#include "se3.hpp"
+#include "sim3.hpp"
 #include <Eigen/Dense>
 
 #define GPU_1D_KERNEL_LOOP(i, n) \

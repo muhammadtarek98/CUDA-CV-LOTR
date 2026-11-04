@@ -4,8 +4,8 @@
 #include <cuda.h>
 #include <cuda_runtime_api.h>
 
-#include "iou3d_cpu.h"
-#include "iou3d_nms.h"
+#include "iou3d_cpu.hpp"
+#include "iou3d_nms.hpp"
 
 
 PYBIND11_MODULE(TORCH_EXTENSION_NAME, m) {
