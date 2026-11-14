@@ -2,8 +2,7 @@ cmake_minimum_required(VERSION 3.31)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 set(CMAKE_CUDA_ARCHITECTURES "75;89")
 set(TORCH_CUDA_ARCH_LIST "7.5;8.9")
-set(CMAKE_CUDA_COMPILER "/usr/local/cuda-12.8/bin/nvcc")
-set(CUDA_TOOLKIT_ROOT_DIR "/usr/local/cuda-12.8")
+
 project(CUDA_CV_LOTR LANGUAGES C CXX CUDA)
 enable_language(CUDA)
 set(CMAKE_CXX_STANDARD 17)
@@ -164,7 +163,6 @@ set(IMP_GEMM_CONV_BW_SRC
         ${CMAKE_CURRENT_SOURCE_DIR}/sparse_conv_operations/pybind_cpu.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/sparse_conv_operations/implicit_gemm_convolution_backward/kernel/convolution_backward_wgrad_implicit_gemm_cuda.cu
         ${CMAKE_CURRENT_SOURCE_DIR}/sparse_conv_operations/implicit_gemm_convolution_backward/kernel/convolution_backward_wgrad_implicit_gemm_sorted_cuda.cu
-        #${CMAKE_CURRENT_SOURCE_DIR}/sparse_conv_operations/implicit_gemm_convolution_backward/src/convolution_gather_scatter_cpu.cpp
 )
 
 set(IMP_GEMM_CONV_FW_SRC
@@ -563,7 +561,7 @@ set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -I${CMAKE_CURRENT_SOURCE_DIR}/sparse_c
 set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -I${CMAKE_CURRENT_SOURCE_DIR}/sparse_conv_operations/kernel_map_construction/kernel/")
 
 foreach (layer ${OPS})
-    set_target_properties(${OPS} PROPERTIES
+    set_target_properties(${layer} PROPERTIES
             CUDA_SEPARABLE_COMPILATION ON
             CUDA_RESOLVE_DEVICE_SYMBOLS ON)
     add_custom_target(install_${layer}
