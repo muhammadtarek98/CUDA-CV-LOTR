@@ -1,0 +1,323 @@
+================================================================================
+          SUMMARY OF FILE AND FUNCTION DUPLICATIONS IN REPOSITORY
+               (custom_pytorch_layers_and_operations)
+================================================================================
+
+1. EXECUTIVE SUMMARY & STATISTICS
+--------------------------------------------------------------------------------
+- Total repository source files (excluding third_party & build artifacts): 412
+- Exact duplicate file sets (bit-for-bit identical): 18 sets
+- Total redundant clone files: 23 files
+- Redundant disk footprint from exact clones: 121,007 bytes (~118.2 KB)
+- Near-identical file pairs (>90% similarity): 11 pairs
+- Identical Python function implementations across files: 17 functions
+- Duplicate CUDA kernels / C++ function signatures across files: 28 definitions
+- Independent setup.py packaging scripts with duplicate boilerplate: 19 files
+
+External dependencies (third_party/Eigen3 and third_party/pybind11) and CMake
+build output directories (cmake-build-debug/) were excluded from these metrics.
+
+
+2. EXACT FILE DUPLICATES (BIT-FOR-BIT IDENTICAL)
+--------------------------------------------------------------------------------
+The following 18 sets of files have identical SHA-256 hashes and can be
+deduplicated or symlinked immediately:
+
+1. Gather-Scatter CUDA Kernel (37,516 bytes)
+   - sparse_conv_operations/FOD_convolution_backward/kernel/convolution_gather_scatter_cuda.cu
+   - sparse_conv_operations/gather_scatter_convolution/kernel/convolution_gather_scatter_cuda.cu
+
+2. Kernel Map Construction (11,259 bytes)
+   - sparse_conv_operations/kernel_map_construction/build_kmap.py
+   - sparse_conv_operations/kernel_map_reordering/build_kmap.py
+
+3. Implicit GEMM Autograd Wrapper (7,051 bytes)
+   - sparse_conv_operations/implicit_gemm_convolution_forward/implicit_gemm.py
+   - sparse_conv_operations/implicit_gemm_convolution_backward/implicit_gemm.py
+
+4. Gather-Scatter C++ Host Code (6,803 bytes)
+   - sparse_conv_operations/FOD_convolution_backward/src/convolution_gather_scatter_cpu.cpp
+   - sparse_conv_operations/gather_scatter_convolution/src/convolution_gather_scatter_cpu.cpp
+
+5. Hashmap On-the-Fly Module (6,082 bytes - 4 identical copies)
+   - sparse_conv_operations/hashtable/hashmap_on_the_fly.py
+   - sparse_conv_operations/kernel_map_construction/hashmap_on_the_fly.py
+   - sparse_conv_operations/kernel_map_exculsive_scan/hashmap_on_the_fly.py
+   - sparse_conv_operations/kernel_map_reordering/hashmap_on_the_fly.py
+
+6. Hashmap Module (5,999 bytes - 4 identical copies)
+   - sparse_conv_operations/hashtable/hashmap.py
+   - sparse_conv_operations/kernel_map_construction/hashmap.py
+   - sparse_conv_operations/kernel_map_exculsive_scan/hashmap.py
+   - sparse_conv_operations/kernel_map_reordering/hashmap.py
+
+7. Voxelize CUDA Kernel (5,672 bytes)
+   - sparse_conv_operations/voxelize/kernel/voxelize_cuda.cu
+   - sparse_conv_operations/sparese_to_dense/kernel/voxelize_cuda.cu
+
+8. Fetch-on-Demand Autograd Function (4,980 bytes)
+   - sparse_conv_operations/FOD_convolution_forward/fetch_on_demand.py
+   - sparse_conv_operations/FOD_convolution_backward/fetch_on_demand.py
+
+9. Coordinate Hash CUDA Kernel (2,661 bytes)
+   - sparse_conv_operations/Kernel_coordinate_hashing/kernel/hash_cuda.cu
+   - sparse_conv_operations/hash_query/kernel/hash_cuda.cu
+
+10. Coordinate Hash C++ Host Code (1,787 bytes)
+    - sparse_conv_operations/Kernel_coordinate_hashing/src/hash_cpu.cpp
+    - sparse_conv_operations/hash_query/src/hash_cpu.cpp
+
+11. Coordinate Hash Python Wrapper (1,340 bytes - 3 identical copies)
+    - sparse_conv_operations/Kernel_coordinate_hashing/hash.py
+    - sparse_conv_operations/coordinate_hashing/conv_hash.py
+    - sparse_conv_operations/hash_query/hash.py
+
+12. Gather-Scatter CUDA Header (1,284 bytes)
+    - sparse_conv_operations/FOD_convolution_backward/include/convolution_gather_scatter_cuda.h
+    - sparse_conv_operations/gather_scatter_convolution/include/convolution_gather_scatter_cuda.h
+
+13. Voxelize CUDA Header (706 bytes)
+    - sparse_conv_operations/voxelize/include/voxelize_cuda.h
+    - sparse_conv_operations/sparese_to_dense/include/voxelize_cuda.h
+
+14. Gather-Scatter CPU Header (590 bytes)
+    - sparse_conv_operations/FOD_convolution_backward/include/convolution_gather_scatter_cpu.h
+    - sparse_conv_operations/gather_scatter_convolution/include/convolution_gather_scatter_cpu.h
+
+15. Hash CUDA Header (196 bytes)
+    - sparse_conv_operations/Kernel_coordinate_hashing/include/hash_cuda.h
+    - sparse_conv_operations/hash_query/include/hash_cuda.h
+
+16. Hash CPU Header (193 bytes)
+    - sparse_conv_operations/Kernel_coordinate_hashing/include/hash_cpu.h
+    - sparse_conv_operations/hash_query/include/hash_cpu.h
+
+17. Package Init File (26 bytes)
+    - vid_2_vid_correlation/vid_2_vid_correlation/__init__.py
+    - correlation/correlation/__init__.py
+
+18. JSON Rendering Config (1,360 bytes)
+    - lietorch/examples/registration/assets/renderoption.json
+    - lietorch/examples/rgbdslam/assets/renderoption.json
+
+
+3. NEAR-IDENTICAL FILES (>90% SIMILARITY)
+--------------------------------------------------------------------------------
+1. utilities_3D/object3d_kitti.py <--> utilities_3D/object3d_custom.py (98.9% match)
+   - All classes and bounding box methods are identical. Only minor method
+     renames ('to_kitti_format' vs 'to_custom_format') distinguish them.
+
+2. sparse_conv_operations/coordinate_hashing/src/hash_cpu.cpp <-->
+   sparse_conv_operations/Kernel_coordinate_hashing/src/hash_cpu.cpp (99.3% match)
+   - Function bodies are completely identical; only minor whitespace/comments differ.
+
+3. kernels/correlation_cuda_kernel.cu <--> kernels/vid2vid_correlation_cuda_kernel.cu (98.8% match)
+   - Kernels (correlation_forward, correlation_backward_input1, correlation_backward_input2,
+     channels_first) and CUDA launchers are identical.
+
+4. sparse_conv_operations/coordinate_hashing/kernel/hash_cuda.cu <-->
+   sparse_conv_operations/Kernel_coordinate_hashing/kernel/hash_cuda.cu (98.0% match)
+   - Only 75 bytes of include formatting differ.
+
+5. src/correlation_cuda.cc <--> src/vid2vid_correlation_cuda.cc (96.7% match)
+   - correlation_cuda.cc actually includes "vid2vid_correlation_cuda_kernel.cuh".
+     Differences are solely whitespace and the PYBIND11_MODULE registration block.
+
+6. correlation/correlation/correlation.py <-->
+   vid_2_vid_correlation/vid_2_vid_correlation/correlation.py (96.2% match)
+   - Same CorrelationFunction and Correlation torch.nn.Module wrappers.
+
+7. Interpolation/Interpolation/InterpolationLayer.py <-->
+   InterpolationCH/InterpolationCH/InterpolationChLayer.py (96.9% match)
+   - Layer definition is copy-pasted; only class name and channel attribute differ.
+
+8. src/deform_attn_cuda_pt109.cpp <--> src/deform_attn_cuda_pt110.cpp (92.8% match)
+   - Identical forward/backward extension bindings maintained for PyTorch 1.9 vs 1.10.
+
+9. kernels/correlation_kernel.cu <--> kernels/altcorr_kernel.cu (92.2% match)
+   - The entire RAFT 2D optical flow correlation kernel implementation
+     (within_bounds, corr_forward_kernel, corr_backward_kernel) is identical to
+     altcorr_forward_kernel and altcorr_backward_kernel with renamed symbols.
+
+10. include/deform_attn_cuda_pt109.hpp <--> include/deform_attn_cuda_pt110.hpp (92.2% match)
+    - Duplicate header signatures for PyTorch 1.9 and 1.10.
+
+11. include/separableconv_cuda_kernel.cuh <--> include/separableconvflow_cuda_kernel.cuh (90.3% match)
+    - Separable convolution kernel function declarations.
+
+
+4. DUPLICATE PYTHON FUNCTIONS AND CLASSES
+--------------------------------------------------------------------------------
+- sphash:
+  Defined identically in:
+  * sparse_conv_operations/Kernel_coordinate_hashing/hash.py:10
+  * sparse_conv_operations/coordinate_hashing/conv_hash.py:10
+  * sparse_conv_operations/hash_query/hash.py:10
+
+- build_kmap_implicit_GEMM_hashmap, build_kmap_Gather_Scatter_hashmap, build_kmap_Fetch_on_Demand_hashmap:
+  Defined identically across 4 separate files:
+  * sparse_conv_operations/hashtable/hashmap.py
+  * sparse_conv_operations/kernel_map_construction/hashmap.py
+  * sparse_conv_operations/kernel_map_exculsive_scan/hashmap.py
+  * sparse_conv_operations/kernel_map_reordering/hashmap.py
+
+- build_kmap_*_on_the_fly:
+  Defined identically across 4 separate files in:
+  * sparse_conv_operations/hashtable/hashmap_on_the_fly.py
+  * sparse_conv_operations/kernel_map_construction/hashmap_on_the_fly.py
+  * sparse_conv_operations/kernel_map_exculsive_scan/hashmap_on_the_fly.py
+  * sparse_conv_operations/kernel_map_reordering/hashmap_on_the_fly.py
+
+- build_kernel_map & transpose_kernel_map:
+  Defined identically in:
+  * sparse_conv_operations/kernel_map_construction/build_kmap.py
+  * sparse_conv_operations/kernel_map_reordering/build_kmap.py
+
+- FetchOnDemandConvolutionFuntion (forward & backward):
+  Duplicated in:
+  * sparse_conv_operations/FOD_convolution_forward/fetch_on_demand.py
+  * sparse_conv_operations/FOD_convolution_backward/fetch_on_demand.py
+
+- ImplicitGEMMConvolutionFuntion (forward & backward):
+  Duplicated in:
+  * sparse_conv_operations/implicit_gemm_convolution_forward/implicit_gemm.py
+  * sparse_conv_operations/implicit_gemm_convolution_backward/implicit_gemm.py
+
+- CorrelationFunction & Correlation:
+  Duplicated in:
+  * correlation/correlation/correlation.py
+  * vid_2_vid_correlation/vid_2_vid_correlation/correlation.py
+
+- GradClip:
+  Duplicated in:
+  * lietorch/examples/core/networks/modules/unet.py
+  * lietorch/examples/core/networks/modules/clipping.py
+
+- image_read & depth_read helper functions:
+  Duplicated across 7 data reader files in lietorch/examples/core/data_readers/:
+  * eth3d.py, base.py, tartan.py, stream.py, nyu2.py, tum.py
+
+- test_module.py test logic:
+  Defines 9 benchmark/forward-backward verification functions that replicate
+  ~40 lines each of timer, CPU/GPU tensor conversion, and error tolerance checking.
+  Additionally, function names shadow the imported module names.
+
+
+5. DUPLICATE C++ / CUDA FUNCTIONS AND KERNELS
+--------------------------------------------------------------------------------
+- correlation_forward_cuda & correlation_backward_cuda:
+  * src/correlation_cuda.cc
+  * src/vid2vid_correlation_cuda.cc
+
+- correlation_forward_cuda_kernel & correlation_backward_cuda_kernel:
+  * kernels/correlation_cuda_kernel.cu
+  * kernels/vid2vid_correlation_cuda_kernel.cu
+
+- correlation_forward, correlation_backward_input1, correlation_backward_input2, channels_first:
+  * kernels/correlation_cuda_kernel.cu
+  * kernels/vid2vid_correlation_cuda_kernel.cu
+
+- corr_forward_kernel & corr_backward_kernel vs altcorr_forward_kernel & altcorr_backward_kernel:
+  * kernels/correlation_kernel.cu
+  * kernels/altcorr_kernel.cu
+
+- modulated_deformable_im2col_gpu_kernel, modulated_deformable_col2im_gpu_kernel,
+  modulated_deformable_col2im_coord_gpu_kernel:
+  * kernels/dcn_v2_im2col_cuda.cu
+  * kernels/deform_attn_cuda_kernel.cu
+
+- farthest_point_sampling_kernel, farthest_point_sampling_kernel_launcher, farthest_point_sampling_wrapper:
+  * kernels/Pointnet2_batch_sampling_gpu.cu vs kernels/Pointnet2_stack_sampling_gpu.cu
+  * src/Pointnet2_batch_sampling.cpp vs src/Pointnet2_stack_sampling.cpp
+
+- hash_kernel & kernel_hash_kernel:
+  * sparse_conv_operations/Kernel_coordinate_hashing/kernel/hash_cuda.cu
+  * sparse_conv_operations/coordinate_hashing/kernel/hash_cuda.cu
+  * sparse_conv_operations/hash_query/kernel/hash_cuda.cu
+
+- voxelize_forward_kernel, voxelize_backward_kernel, to_dense_forward_kernel, to_dense_backward_kernel:
+  * sparse_conv_operations/voxelize/kernel/voxelize_cuda.cu
+  * sparse_conv_operations/sparese_to_dense/kernel/voxelize_cuda.cu
+
+- gather_kernel, scatter_kernel, gather_all_kernel_pad_sep_with_mask, scatter_all_kernel_pad_sep:
+  * sparse_conv_operations/FOD_convolution_backward/kernel/convolution_gather_scatter_cuda.cu
+  * sparse_conv_operations/gather_scatter_convolution/kernel/convolution_gather_scatter_cuda.cu
+
+- Common Tensor Validation Macros:
+  CHECK_CUDA(x), CHECK_CONTIGUOUS(x), and CHECK_INPUT(x) are redefined across 12 files:
+  * include/roipoint_pool3d_kernel.h
+  * include/extras.hpp
+  * include/correlation.hpp
+  * src/Pointnet2_stack_interpolate.cpp
+  * src/Pointnet2_stack_ball_query.cpp
+  * src/Pointnet2_stack_vector_pool.cpp
+  * src/Pointnet2_batch_ball_query.cpp
+  * src/iou3d_nms.cpp
+  * src/Pointnet2_stack_voxel_query.cpp
+  * src/Pointnet2_stack_sampling.cpp
+  * src/Pointnet2_stack_group_points.cpp
+  * src/iou3d_cpu.cpp
+
+
+6. ARCHITECTURAL & BUILD SYSTEM REDUNDANCIES
+--------------------------------------------------------------------------------
+1. 19 Separate setup.py Scripts:
+   Each module directory contains an isolated setup.py script with identical
+   CUDAExtension compilation arguments and include paths pointing back to root
+   src/, include/, and kernels/ directories:
+   - ChannelNorm/setup.py
+   - correlation/setup.py
+   - vid_2_vid_correlation/setup.py
+   - alt_cuda_corr/setup.py
+   - DCNv2_latest/setup.py
+   - Deformable_ConvNets/setup.py
+   - MultiScaleDeformableAttention/setup.py
+   - DepthFlowProjection/setup.py
+   - FlowProjection/setup.py
+   - MinDepthFlowProjection/setup.py
+   - FilterInterpolation/setup.py
+   - Interpolation/setup.py
+   - InterpolationCH/setup.py
+   - Pointnet2_batch/setup.py
+   - Resample2D/setup.py
+   - SeparableConv/setup.py
+   - SeparableConvFlow/setup.py
+   - lietorch/setup.py
+   - ops_smm/setup.py
+
+2. Monolithic CMakeLists.txt Target Duplications and Copy-Paste Errors:
+   - CMakeLists.txt builds 31 separate shared libraries.
+   - DCNv2_latest (lines 80-82) mistakenly compiles kernels/correlation_kernel.cu
+     and src/correlation.cpp (RAFT correlation) as part of DCNv2.
+   - HASH_QUERY_SRC (lines 129-134) references
+     'hash_query/kernel/convolution_gather_scatter_cuda.cu' which does not exist
+     (the directory actually contains hash_cuda.cu).
+   - An empty coordinate_hashing/ directory exists at the root because
+     CMakeLists.txt looked for ${CMAKE_CURRENT_SOURCE_DIR}/coordinate_hashing
+     instead of sparse_conv_operations/coordinate_hashing.
+
+
+7. RECOMMENDED CONSOLIDATION ROADMAP
+--------------------------------------------------------------------------------
+1. sparse_conv_operations:
+   - Delete duplicate directories: 'sparese_to_dense' (clone of voxelize) and
+     'Kernel_coordinate_hashing' (clone of hash_query / coordinate_hashing).
+   - Unify FOD_convolution_forward and FOD_convolution_backward into a single module.
+   - Centralize hashmap.py and hashmap_on_the_fly.py into a single shared location.
+
+2. Correlation Modules:
+   - Delete vid_2_vid_correlation/ (98% duplicate of correlation/).
+   - Clearly separate standard 2D displacement correlation from RAFT patch correlation.
+
+3. PointNet2:
+   - Share common CUDA utilities and sampling kernels between Pointnet2_batch
+     and Pointnet2_stack instead of keeping duplicate implementations.
+
+4. Shared Headers:
+   - Centralize CHECK_CUDA, CHECK_CONTIGUOUS, CHECK_INPUT, DIVUP, and
+     THREADS_PER_BLOCK into include/cuda_utils.hpp.
+
+5. Unified Packaging:
+   - Replace the 19 separate setup.py scripts with a unified top-level package
+     and clean CMake build targets.
+================================================================================
