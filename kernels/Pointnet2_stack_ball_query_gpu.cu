@@ -10,7 +10,7 @@ All Rights Reserved 2019-2020.
 #include <stdlib.h>
 
 #include "ball_query_gpu.h"
-#include "cuda_utils.h"
+#include "cuda_utils.hpp"
 
 
 __global__ void ball_query_kernel_stack(int B, int M, float radius, int nsample, \

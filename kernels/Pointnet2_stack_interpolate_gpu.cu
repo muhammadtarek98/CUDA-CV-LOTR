@@ -9,7 +9,7 @@ All Rights Reserved 2019-2020.
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "cuda_utils.h"
+#include "cuda_utils.hpp"
 #include "interpolate_gpu.h"
 
 

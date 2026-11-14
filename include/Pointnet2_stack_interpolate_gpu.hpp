@@ -1,6 +1,4 @@
-#ifndef _INTERPOLATE_GPU_H
-#define _INTERPOLATE_GPU_H
-
+#pragma once
 #include <torch/serialize/tensor.h>
 #include<vector>
 #include <cuda.h>
@@ -33,7 +31,3 @@ void three_interpolate_kernel_launcher_stack(int N, int channels,
 
 void three_interpolate_grad_kernel_launcher_stack(int N, int channels, const float *grad_out, 
     const int *idx, const float *weight, float *grad_features);
-
-
-
-#endif

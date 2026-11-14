@@ -1,6 +1,4 @@
-#ifndef _INTERPOLATE_GPU_H
-#define _INTERPOLATE_GPU_H
-
+#pragma once
 #include <torch/serialize/tensor.h>
 #include<vector>
 #include <cuda.h>
@@ -26,5 +24,3 @@ void three_interpolate_grad_wrapper_fast(int b, int c, int n, int m, at::Tensor 
 
 void three_interpolate_grad_kernel_launcher_fast(int b, int c, int n, int m, const float *grad_out, 
     const int *idx, const float *weight, float *grad_points);
-
-#endif

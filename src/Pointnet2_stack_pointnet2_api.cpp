@@ -1,12 +1,12 @@
 #include <torch/serialize/tensor.h>
 #include <torch/extension.h>
 
-#include "ball_query_gpu.h"
-#include "group_points_gpu.h"
-#include "sampling_gpu.h"
-#include "interpolate_gpu.h"
-#include "voxel_query_gpu.h"
-#include "vector_pool_gpu.h"
+#include "Pointnet2_stack_ball_query_gpu.hpp"
+#include "Pointnet2_stack_group_points_gpu.hpp"
+#include "Pointnet2_stack_sampling_gpu.hpp"
+#include "Pointnet2_stack_interpolate_gpu.hpp"
+#include "Pointnet2_stack_voxel_query_gpu.hpp"
+#include "Pointnet2_stack_vector_pool_gpu.hpp"
 
 
 PYBIND11_MODULE(TORCH_EXTENSION_NAME, m) {

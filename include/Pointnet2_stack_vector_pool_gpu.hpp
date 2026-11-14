@@ -7,9 +7,7 @@ Written by Shaoshuai Shi
 All Rights Reserved 2020.
 */
 
-
-#ifndef _STACK_VECTOR_POOL_GPU_H
-#define _STACK_VECTOR_POOL_GPU_H
+#pragma once
 
 #include <torch/serialize/tensor.h>
 #include <vector>
@@ -67,5 +65,3 @@ void vector_pool_grad_kernel_launcher_stack(
     const float *grad_new_features, const int *point_cnt_of_grid, const int *grouped_idxs,
     float *grad_support_features, int N, int M, int num_c_out, int num_c_in, int num_total_grids,
     int num_max_sum_points);
-
-#endif

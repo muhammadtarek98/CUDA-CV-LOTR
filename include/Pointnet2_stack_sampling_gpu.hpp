@@ -1,5 +1,4 @@
-#ifndef _SAMPLING_GPU_H
-#define _SAMPLING_GPU_H
+#pragma once
 
 #include <torch/serialize/tensor.h>
 #include <ATen/cuda/CUDAContext.h>
@@ -19,5 +18,3 @@ int stack_farthest_point_sampling_wrapper(
 
 void stack_farthest_point_sampling_kernel_launcher(int N, int batch_size,
     const float *dataset, float *temp, int *xyz_batch_cnt, int *idxs, int *num_sampled_points);
-
-#endif

@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "cuda_utils.h"
+#include "cuda_utils.hpp"
 #include "Pointnet2_batch_sampling_gpu.h"
 #define TOTAL_THREADS 1024
 

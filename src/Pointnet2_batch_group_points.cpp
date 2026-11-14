@@ -9,15 +9,15 @@ All Rights Reserved 2018.
 #include <cuda.h>
 #include <cuda_runtime_api.h>
 #include <vector>
-#include "Pointnet2_batch_group_points_gpu.h"
+#include "Pointnet2_batch_group_points_gpu.hpp"
 
 
 int group_points_grad_wrapper_fast(int b, int c, int n, int npoints, int nsample, 
     at::Tensor grad_out_tensor, at::Tensor idx_tensor, at::Tensor grad_points_tensor) {
 
-    float *grad_points = grad_points_tensor.data<float>();
-    const int *idx = idx_tensor.data<int>();
-    const float *grad_out = grad_out_tensor.data<float>();
+    float *grad_points = grad_points_tensor.data_ptr<float>();
+    const int *idx = idx_tensor.data_ptr<int>();
+    const float *grad_out = grad_out_tensor.data_ptr<float>();
 
     group_points_grad_kernel_launcher_fast(b, c, n, npoints, nsample, grad_out, idx, grad_points);
     return 1;

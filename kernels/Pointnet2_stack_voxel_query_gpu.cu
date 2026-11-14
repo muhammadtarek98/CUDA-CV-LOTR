@@ -3,8 +3,8 @@
 #include <stdlib.h>
 #include <curand_kernel.h>
 
-#include "Pointnet2_stack_voxel_query_gpu.h"
-#include "cuda_utils.h"
+#include "Pointnet2_stack_voxel_query_gpu.hpp"
+#include "cuda_utils.hpp"
 
 
 __global__ void voxel_query_kernel_stack(int M, int R1, int R2, int R3, int nsample, 

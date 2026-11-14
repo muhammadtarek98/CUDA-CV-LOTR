@@ -1,6 +1,4 @@
-#ifndef _CUDA_UTILS_H
-#define _CUDA_UTILS_H
-
+#pragma once
 #include <cmath>
 
 #define TOTAL_THREADS 1024
@@ -12,4 +10,3 @@ inline int opt_n_threads(int work_size) {
 
     return max(min(1 << pow_2, TOTAL_THREADS), 1);
 }
-#endif

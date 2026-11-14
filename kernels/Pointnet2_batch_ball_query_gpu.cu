@@ -8,8 +8,8 @@ All Rights Reserved 2018.
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "Pointnet2_batch_ball_query_gpu.h"
-#include "cuda_utils.h"
+#include "Pointnet2_batch_ball_query_gpu.hpp"
+#include "cuda_utils.hpp"
 
 
 __global__ void ball_query_kernel_fast(int b, int n, int m, float radius, int nsample, 

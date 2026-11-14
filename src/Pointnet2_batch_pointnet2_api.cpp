@@ -1,7 +1,7 @@
 #include <torch/serialize/tensor.h>
 #include <torch/extension.h>
 
-#include "Pointnet2_batch_ball_query_gpu.h"
+#include "Pointnet2_batch_ball_query_gpu.hpp"
 #include "Pointnet2_batch_group_points_gpu.h"
 #include "Pointnet2_batch_sampling_gpu.h"
 #include "Pointnet2_batch_interpolate_gpu.h"

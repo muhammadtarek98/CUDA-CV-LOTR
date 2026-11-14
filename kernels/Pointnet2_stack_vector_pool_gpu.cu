@@ -12,8 +12,8 @@ All Rights Reserved 2020.
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "Pointnet2_stack_vector_pool_gpu.h"
-#include "cuda_utils.h"
+#include "Pointnet2_stack_vector_pool_gpu.hpp"
+#include "cuda_utils.hpp"
 
 
 __global__ void query_three_nn_by_stacked_local_idxs_kernel(

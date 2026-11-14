@@ -1,6 +1,4 @@
-#ifndef _BALL_QUERY_GPU_H
-#define _BALL_QUERY_GPU_H
-
+#pragma once
 #include <torch/serialize/tensor.h>
 #include <vector>
 #include <cuda.h>
@@ -11,5 +9,3 @@ int ball_query_wrapper_fast(int b, int n, int m, float radius, int nsample,
 
 void ball_query_kernel_launcher_fast(int b, int n, int m, float radius, int nsample, 
 	const float *xyz, const float *new_xyz, int *idx);
-
-#endif

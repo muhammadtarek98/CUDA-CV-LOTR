@@ -5,9 +5,7 @@ All Rights Reserved 2019-2020.
 */
 
 
-#ifndef _STACK_GROUP_POINTS_GPU_H
-#define _STACK_GROUP_POINTS_GPU_H
-
+#pragma once
 #include <torch/serialize/tensor.h>
 #include <cuda.h>
 #include <cuda_runtime_api.h>
@@ -27,5 +25,3 @@ int group_points_grad_wrapper_stack(int B, int M, int C, int N, int nsample,
 
 void group_points_grad_kernel_launcher_stack(int B, int M, int C, int N, int nsample,
     const float *grad_out, const int *idx, const int *idx_batch_cnt, const int *features_batch_cnt, float *grad_features);
-
-#endif
