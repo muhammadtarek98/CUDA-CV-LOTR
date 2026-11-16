@@ -246,7 +246,7 @@ set(OPS kernel_map_construction voxelize sparse_to_dense kernel_map_exclusive_sc
         SeparableConvFlow SeparableConv  vid_2_vid_correlation ChannelNorm Resample2D
         Interpolation InterpolationCH DepthFlowProjection FlowProjection FilterInterpolation
         DCNv2_latest ops_smm MultiScaleDeformableAttention IOU3D_NMS Pointnet2_batch ROI_aware_pool_3D Pointnet2_stack ROI_point_pool3D)
-set_source_files_properties(src/deform_attn_ext.cpp PROPERTIESLANGUAGE CUDA)
+set_source_files_properties(src/deform_attn_ext.cpp PROPERTIES LANGUAGE CUDA)
 set(CUDA_NVCC_FLAGS "${CUDA_NVCC_FLAGS} -gencode arch=compute_${TORCH_CUDA_ARCH_LIST},code=sm_${TORCH_CUDA_ARCH_LIST}")
 
 add_library(IOU3D_NMS SHARED ${IOU3D_NMS_SRC})
@@ -544,7 +544,7 @@ set_target_properties(kernel_map_construction PROPERTIES SUFFIX ".so" PREFIX ""
 
 set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -I${CMAKE_CURRENT_SOURCE_DIR}/kernels")
 set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -I${CMAKE_CURRENT_SOURCE_DIR}/sparse_conv_operations/coordinate_hashing/kernel/")
-set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -I${CMAKE_CURRENT_SOURCE_DIR}/sparse_conv_operations/count_coordinate/kernel/")
+set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -I${CMAKE_CURRENT_SOURCE_DIR}/sparse_conv_operations/count_coordinates/kernel/")
 set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -I${CMAKE_CURRENT_SOURCE_DIR}/sparse_conv_operations/devoxelize/kernel/")
 set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -I${CMAKE_CURRENT_SOURCE_DIR}/sparse_conv_operations/FOD_convolution_backward/kernel/")
 set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -I${CMAKE_CURRENT_SOURCE_DIR}/sparse_conv_operations/FOD_convolution_forward/kernel/")
